@@ -8,7 +8,7 @@ import ContactPage from "../pages/ContactPage/ContactPage";
 
 import {
   Navbar,
-  MobileNav,
+  Collapse,
   Typography,
   Button,
   IconButton,
@@ -72,7 +72,7 @@ export default function Example() {
 
   return (
     <>
-      <Navbar className="sticky bg-teal-600 text-white bg-opacity-80 inset-0 z-10 h-max max-w-full rounded-none py-2 px-4 lg:px-8 lg:py-4">
+      <Navbar className="sticky bg-primary-color border-primary-color  text-white  inset-0 z-10 h-max max-w-full rounded-none py-2 px-4 lg:px-8 lg:py-4">
         <div className="flex items-center justify-between text-blue-gray-900">
           <Typography
             as="a"
@@ -80,7 +80,7 @@ export default function Example() {
             className="mr-4 cursor-pointer py-1.5 font-medium"
           >
             <img className="w-[35px] inline-block" src={RangBazarLogo} />{" "}
-            RangBazar
+            RangBazaar
           </Typography>
           <div className="flex items-center gap-4">
             <div className="mr-4 hidden lg:block">{navList}</div>
@@ -130,7 +130,7 @@ export default function Example() {
             </IconButton>
           </div>
         </div>
-        <MobileNav open={openNav}>
+        <Collapse open={openNav}>
           {navList}
           <Button
             variant="gradient"
@@ -140,7 +140,7 @@ export default function Example() {
           >
             <span className="">Log In</span>
           </Button>
-        </MobileNav>
+        </Collapse>
       </Navbar>
 
       {/* creating routes */}

@@ -1,0 +1,18 @@
+@media (max-width: 1023px) {
+  .lg-info-container {
+    display: none;
+  }
+}
+
+.sm-info-container {
+  display: none;
+  position: relative;
+
+  backdrop-filter: blur(50px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 1023px) {
+  .sm-info-container {
+    display: block;
+  }
+}
