@@ -3,10 +3,15 @@ import { motion as m, useInView, useAnimation } from "framer-motion";
 
 interface Props {
   children: JSX.Element;
-  width?: "fit-content" | "100%"; // Add 'undefined' to the type
+  width?: "fit-content" | "100%";
+  color?: string;
 }
 
-export const Reveal = ({ children, width = "fit-content" }: Props) => {
+export const Reveal = ({
+  children,
+  width = "fit-content",
+  color = "#27374d",
+}: Props) => {
   const mainControls = useAnimation();
   const slideControls = useAnimation();
   const ref = useRef(null);
@@ -46,7 +51,7 @@ export const Reveal = ({ children, width = "fit-content" }: Props) => {
             bottom: 4,
             left: 0,
             right: 0,
-            backgroundColor: "#27374d",
+            backgroundColor: color,
             zIndex: 20,
           }}
         ></m.div>

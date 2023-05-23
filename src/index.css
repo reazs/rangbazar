@@ -6,9 +6,11 @@ body {
 }
 :root {
   --primary-color: #27374d;
+  --primary-bg-color: #526d82;
 }
 .big-heading {
   font-size: 3.5rem;
+  font-family: "Merriweather";
 }
 .body-text {
   font-size: 1.25rem;
@@ -18,7 +20,6 @@ body {
 .medium-heading {
   font-size: 2.5rem;
   font-family: "Merriweather";
-  color: var(--primary-color);
 }
 @media (max-width: 800px) {
   .big-heading {
