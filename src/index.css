@@ -2,13 +2,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+body {
+}
+:root {
+  --primary-color: #27374d;
+}
 .big-heading {
   font-size: 3.5rem;
 }
-
+.body-text {
+  font-size: 1.25rem;
+  line-height: 2.5rem;
+  font-family: "Poppins";
+}
+.medium-heading {
+  font-size: 2.5rem;
+  font-family: "Merriweather";
+  color: var(--primary-color);
+}
 @media (max-width: 800px) {
   .big-heading {
     font-size: 2.5rem;
+  }
+  .medium-heading {
+    font-size: 2rem;
+  }
+  .body-text {
+    font-size: 1.1rem;
   }
 }
