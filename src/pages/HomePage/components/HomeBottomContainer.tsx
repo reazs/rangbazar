@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { Reveal } from "../../../components/Reveal";
 import { motion as m, useInView, useAnimation } from "framer-motion";
-import OnlineShoppingImg from "../../../assets/online-shopper.png";
+import ShoppingCoverImg from "../../../assets/online-shopper.png";
+import OnlineShoppingImg from "../../../assets/online_shopping.svg";
 
 const HomeBottomContainer: React.FC = () => {
   const ref = useRef(null);
@@ -31,7 +32,7 @@ const HomeBottomContainer: React.FC = () => {
               transition={{ duration: 0.75 }}
               className=" object-cover  "
             >
-              <img className="" src={OnlineShoppingImg} />
+              <img className="" src={ShoppingCoverImg} />
             </m.div>
           </div>
           {/* right container */}
@@ -48,6 +49,30 @@ const HomeBottomContainer: React.FC = () => {
             </Reveal>
           </div>
         </div>
+      </div>
+      {/* join us */}
+      <div className="mt-[100px] w-full max-w-screen-xl mx-auto p-10 ">
+        <div>
+          <div className="flex flex-row justify-center">
+            <Reveal>
+              <h1 className="big-heading text-primary-color text-center">
+                Join Us
+              </h1>
+            </Reveal>
+          </div>
+          <Reveal>
+            <p className="body-text text-center">
+              Explore the captivating world of desi traditional clothing and
+              cultural treasures at Rangbazaar. Embark on a delightful adventure
+              that transports you to the realm of timeless traditions and
+              enchanting aesthetics. Join us today!
+            </p>
+          </Reveal>
+        </div>
+        <img
+          className="mx-auto mt-[50px] max-h-[400px]"
+          src={OnlineShoppingImg}
+        />
       </div>
     </>
   );

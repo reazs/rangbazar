@@ -4,12 +4,7 @@ import { Link } from "react-router-dom";
 import { motion as m } from "framer-motion";
 import CoverImage from "../../../assets/shopping.svg";
 const HomeCoverContainer: React.FC = () => {
-  const coverImageStyle = {
-    backgroundImage: `url(${CoverImage})`,
-    backgroundPosition: "center",
-    backgroundSize: "content",
-    backgroundRepeat: "no-repeat",
-  };
+
   return (
     <>
       <div className="w-full grid lg:grid-cols-2 grid-cols-1  lg:pt-[250px] pb-[130px]">
