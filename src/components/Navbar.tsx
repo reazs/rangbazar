@@ -1,6 +1,5 @@
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
-import RangBazarLogo from ".././assets/rangbazar-logo.png";
 import HomePage from "../pages/HomePage/HomePage";
 import AboutPage from "../pages/AboutPage/AboutPage";
 import ShopPage from "../pages/ShopPage/ShopPage";
@@ -13,6 +12,7 @@ import {
   Button,
   IconButton,
 } from "@material-tailwind/react";
+import Navbrand from "./navbrand";
 
 export default function Example() {
   const [openNav, setOpenNav] = React.useState(false);
@@ -72,22 +72,24 @@ export default function Example() {
 
   return (
     <>
-      <Navbar className="sticky bg-primary-color border-primary-color  text-white  inset-0 z-10 h-max max-w-full rounded-none py-2 px-4 lg:px-8 lg:py-4">
+      <Navbar className="sticky   text-primary-color  inset-0 z-10 h-max max-w-full rounded-none py-2 px-4 lg:px-8 lg:py-4">
         <div className="flex items-center justify-between text-blue-gray-900">
           <Typography
             as="a"
             href="#"
             className="mr-4 cursor-pointer py-1.5 font-medium"
           >
-            <img className="w-[35px] inline-block" src={RangBazarLogo} />{" "}
-            RangBazaar
+            {/* navbrand */}
+            <div className="">
+              <Navbrand />
+            </div>
           </Typography>
           <div className="flex items-center gap-4">
             <div className="mr-4 hidden lg:block">{navList}</div>
             <Button
               variant="gradient"
               size="sm"
-              className="hidden lg:inline-block border border-white hover:bg-white hover:text-black rounded-md"
+              className="hidden lg:inline-block text-black border border-white hover:bg-primary-color hover:text-white rounded-md"
             >
               <span>Log In</span>
             </Button>
@@ -130,13 +132,13 @@ export default function Example() {
             </IconButton>
           </div>
         </div>
-        <Collapse open={openNav}>
+        <Collapse className="mb-2" open={openNav}>
           {navList}
           <Button
             variant="gradient"
             size="sm"
             fullWidth
-            className="mb-2 border border-white hover:bg-white hover:text-black rounded-md"
+            className="text-center border text-black border-white hover:bg-primary-color hover:text-white rounded-md"
           >
             <span className="">Log In</span>
           </Button>

@@ -15,7 +15,7 @@ const HomeBottomContainer: React.FC = () => {
   });
   return (
     <>
-      <div className=" w-full lg:p-20 md:p-16 p-12 py-20 bg-secondary-color  flex flex-col justify-center">
+      <div className=" w-full lg:p-20 md:p-16 p-12 py-20 bg-secondary-color  flex flex-col justify-center ">
         <div
           ref={ref}
           className="max-w-screen-xl mx-auto grid md:grid-cols-2 grid-cols-1"

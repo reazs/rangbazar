@@ -3,6 +3,7 @@ import "./HomePage.css";
 import HomeMiddleContainer from "./components/HomeMiddleContainer";
 import HomeCoverContainer from "./components/HomeCoverContainer";
 import HomeBottomContainer from "./components/HomeBottomContainer";
+import Footer from "../../components/Footer";
 const HomePage: React.FC = () => {
   useEffect(() => {});
 
@@ -12,8 +13,7 @@ const HomePage: React.FC = () => {
         <HomeCoverContainer />
         <HomeMiddleContainer />
         <HomeBottomContainer />
-        {/* extra size */}
-        <div className="h-[200px]"></div>
+        <Footer />
       </div>
     </>
   );
