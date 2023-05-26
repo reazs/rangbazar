@@ -60,7 +60,7 @@ const HomeBottomContainer: React.FC = () => {
               </h1>
             </Reveal>
           </div>
-          <Reveal>
+          <Reveal width="100%">
             <p className="body-text text-center">
               Explore the captivating world of desi traditional clothing and
               cultural treasures at Rangbazaar. Embark on a delightful adventure
