@@ -13,6 +13,7 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import Navbrand from "./navbrand";
+import ProductDetailsPage from "../pages/ProductDetailsPage/ProductDetailsPage";
 
 export default function Example() {
   const [openNav, setOpenNav] = React.useState(false);
@@ -152,6 +153,10 @@ export default function Example() {
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route
+          path="/shop/product-details/:title/:productId"
+          element={<ProductDetailsPage />}
+        />
       </Routes>
     </>
   );
