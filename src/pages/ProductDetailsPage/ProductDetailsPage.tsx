@@ -107,15 +107,23 @@ const ProductDetailsPage: React.FC = () => {
       </div>
       {/* product description and details container*/}
       <div className="mt-[50px] max-w-screen-xl mx-auto px-[15px] ">
-        <h4 className="medium-thin-heading py-[15px] mb-[45px]">Description</h4>
+        <div className="py-[15px] mb-[45px]">
+          <Reveal>
+            <h4 className="medium-thin-heading ">Description</h4>
+          </Reveal>
+        </div>
+
         <div className="text-[16px] leading-8 large-first-letter mb-[50px]">
           <p>{product?.description}</p>
         </div>
         {/* product details */}
         <div>
-          <h4 className="medium-thin-heading py-[15px] mb-[45px]">
-            Product Details
-          </h4>
+          <div className="py-[15px] mb-[45px]">
+            <Reveal>
+              <h4 className="medium-thin-heading ">Product Details</h4>
+            </Reveal>
+          </div>
+
           <div>
             {/* show maybe company brand of cloths */}
             <Navbrand />
@@ -134,7 +142,11 @@ const ProductDetailsPage: React.FC = () => {
         </div>
         {/* related items container */}
         <div className="">
-          <h4 className="medium-thin-heading text-center">Related Items</h4>
+          <div className="flex flex-row justify-center">
+            <Reveal>
+              <h4 className="medium-thin-heading text-center">Related Items</h4>
+            </Reveal>
+          </div>
           <p className="pt-[30px] pb-[60px] text-gray-500 josefin-sans text-center">
             (There are 8 other products in the same category)
           </p>
