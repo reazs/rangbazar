@@ -17,7 +17,7 @@ const ProductAddItemContainer = () => {
               </div>
             </div>
             {/* add to cart button */}
-            <div className="w-[230px] h-[52px] bg-primary-color px-[50px] mx-5 border-2 text-center flex flex-col justify-around text-white hover:bg-white hover:text-primary-color border-primary-color cursor-pointer">
+            <div className="md:w-[230px]  md:text-[16px] text-[12px] h-[52px] bg-primary-color px-[50px] mx-5 border-2 text-center flex flex-col justify-around text-white hover:bg-white hover:text-primary-color border-primary-color cursor-pointer">
               <span className="">Add to Cart</span>
             </div>
             {/* add to favorite */}

@@ -3,7 +3,7 @@ import { useState } from "react";
 const ProductImageView = ({
   src,
   width,
-  height = "600px",
+  height,
   magnifierHeight = 250,
   magnifieWidth = 250,
   zoomLevel = 2.5,
@@ -29,7 +29,7 @@ const ProductImageView = ({
       >
         <SlideTransition>
           <img
-            className="rounded-md"
+            className="rounded-md object-cover md:h-[600px] h-[400px]"
             src={src}
             style={{ height: height, width: width }}
             onMouseEnter={(e) => {

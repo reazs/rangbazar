@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import { Routes, Link } from "react-router-dom";
 import ProductCard from "../../components/ProductCard";
 import products from "../../models/Products";
 import { SlideTransition } from "../../components/SlideTransition";
@@ -21,7 +21,7 @@ const ShopPage: React.FC = () => {
       <SlideShow />
       <div className="p-5 max-w-screen-xl mx-auto mt-[50px]">
         <Reveal>
-          <h3 className="shop-heading-title font-['Poppins'] mb-5 underline">
+          <h3 className="large-thin-heading font-['Poppins'] mb-5">
             Our Latest Collection.
           </h3>
         </Reveal>
@@ -48,6 +48,7 @@ const ShopPage: React.FC = () => {
           <i
             onClick={() => {
               if (currentPage > 1) {
+                window.scrollTo(0, 500);
                 setCurrentPage(currentPage - 1);
               }
             }}
@@ -59,6 +60,7 @@ const ShopPage: React.FC = () => {
           <i
             onClick={() => {
               if (currentPage < totalPage) {
+                window.scrollTo(0, 500);
                 setCurrentPage(currentPage + 1);
               }
             }}

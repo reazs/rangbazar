@@ -2,6 +2,7 @@ import { Reveal } from "../../../components/Reveal";
 import { Product } from "../../../models/Products";
 import Navbrand from "../../../components/navbrand";
 import ProdcutRelatedSlider from "./ProductRelatedSlider";
+import ProductCustomerReview from "./ProductCustomerReview";
 
 const ProductInfoContainer = ({
   product,
@@ -39,10 +40,7 @@ const ProductInfoContainer = ({
         </div>
       </div>
       {/* review of product */}
-      <div className="mb-[45px] mr-[35px]">
-        <p className="medium-thin-heading py-[15px]">Review</p>
-        <p>{product?.rating}</p>
-      </div>
+      <ProductCustomerReview product={product} />
       {/* related items container */}
       <div className="">
         <div className="flex flex-row justify-center">

@@ -33,7 +33,13 @@ export default function Example() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <Link to="/" className="flex items-center">
+        <Link
+          onClick={() => {
+            window.scrollTo(0, 0);
+          }}
+          to="/"
+          className="flex items-center"
+        >
           Home
         </Link>
       </Typography>
@@ -43,7 +49,13 @@ export default function Example() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <Link to="/shop" className="flex items-center">
+        <Link
+          onClick={() => {
+            window.scrollTo(0, 0);
+          }}
+          to="/shop"
+          className="flex items-center"
+        >
           Shop
         </Link>
       </Typography>
@@ -54,7 +66,13 @@ export default function Example() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <Link to="/about" className="flex items-center">
+        <Link
+          onClick={() => {
+            window.scrollTo(0, 0);
+          }}
+          to="/about"
+          className="flex items-center"
+        >
           About
         </Link>
       </Typography>
@@ -64,7 +82,13 @@ export default function Example() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <Link to="/contact" className="flex items-center">
+        <Link
+          onClick={() => {
+            window.scrollTo(0, 0);
+          }}
+          to="/contact"
+          className="flex items-center"
+        >
           Contact
         </Link>
       </Typography>

@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .review-form-label {
+    @apply text-xl mb-2;
+    font-family: "Quicksand";
+  }
+}
 body {
 }
 :root {
