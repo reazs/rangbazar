@@ -1,6 +1,7 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Reveal } from "../../../components/Reveal";
 import { SlideTransition } from "../../../components/SlideTransition";
+
 interface Review {
   title: string;
   comment: string;
@@ -19,15 +20,66 @@ const ProudctReviewForm = ({
   handleFormOnSubmit: (review: Review) => void;
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [selectedStar, setSelectedStar] = useState(5);
+  const [hoverStar, setHoverStar] = useState();
   function handleHoverOutSide(event: MouseEvent) {
     if (!containerRef.current?.contains(event.target as Node)) {
       handleClose();
     }
   }
+  function handleHoverOnStar() {
+    const stars = document.querySelectorAll(".star");
+
+    stars.forEach((star) => {
+      star.addEventListener("mouseover", () => {
+        const selectedValue: string | null = star.getAttribute("data-value");
+        stars.forEach((star) => {
+          const starValue: string | null = star.getAttribute("data-value");
+          if (starValue && selectedValue) {
+            if (parseInt(starValue) <= parseInt(selectedValue)) {
+              star.classList.add("star-hovered");
+            } else {
+              star.classList.remove("star-hovered");
+            }
+          }
+        });
+      });
+    });
+  }
+
+  function Stars() {
+    const starCount = 5; // Number of stars to render
+
+    const renderStars = () => {
+      const stars = [];
+
+      for (let i = 1; i <= starCount; i++) {
+        stars.push(
+          <i
+            data-value={i}
+            id={i.toString()}
+            onClick={() => {
+              setSelectedStar(i);
+            }}
+            className={`fa-solid fa-star star ${
+              i <= selectedStar ? "star-hovered" : ""
+            } cursor-pointer text-2xl
+            }`}
+          ></i>
+        );
+      }
+
+      return stars;
+    };
+
+    return <div className="stars-container">{renderStars()}</div>;
+  }
   useEffect(() => {
     document.addEventListener("mousedown", handleHoverOutSide);
+    document.addEventListener("mouseover", handleHoverOnStar);
     return () => {
-      removeEventListener("mousedown", handleHoverOutSide);
+      document.removeEventListener("mousedown", handleHoverOutSide);
+      document.removeEventListener("mouseover", handleHoverOnStar);
     };
   }, [handleClose]);
   return isVisaible ? (
@@ -36,7 +88,7 @@ const ProudctReviewForm = ({
         <SlideTransition>
           <div
             ref={containerRef}
-            className=" w-[600px] bg-white shadow-md rounded-md p-10"
+            className=" md:mx-0 mx-2 max-w-[600px] bg-white shadow-md rounded-md p-10 "
           >
             <form>
               <h3 className="text-4xl mb-2 josefin-sans">
@@ -44,13 +96,7 @@ const ProudctReviewForm = ({
               </h3>
 
               <h3 className="review-form-label">Rating Proudct</h3>
-              <select id="rating" className="h-10 w-full " name="rating">
-                <option value="5">⭐⭐⭐⭐⭐</option>
-                <option value="4">⭐⭐⭐⭐</option>
-                <option value="3">⭐⭐⭐</option>
-                <option value="2">⭐⭐</option>
-                <option value="1">⭐</option>
-              </select>
+              <div className="mb-2">{Stars()}</div>
               <h3 className="review-form-label">Title</h3>
               <input
                 id="title"
@@ -63,21 +109,21 @@ const ProudctReviewForm = ({
                 placeholder="write your comment here!"
                 className="w-full mb-2 h-[100px] rounded-md p-5 focus:outline-none border-2 border-primary-color"
               ></textarea>
+
               <div className="flex flex-row-reverse">
                 <button
+                  type="submit"
                   onClick={(event) => {
                     event.preventDefault();
                     const title: HTMLInputElement | null =
                       document.getElementById("title") as HTMLInputElement;
                     const comment: HTMLTextAreaElement | null =
                       document.getElementById("comment") as HTMLTextAreaElement;
-                    const rating: HTMLSelectElement | null =
-                      document.getElementById("rating") as HTMLSelectElement;
 
                     const review: Review = {
                       title: title.value,
                       comment: comment.value,
-                      rating: parseInt(rating.value),
+                      rating: selectedStar,
                       email: "reaz@gmail.com",
                       userId: 1,
                       username: "gooseFather",

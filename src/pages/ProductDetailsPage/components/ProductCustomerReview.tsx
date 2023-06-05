@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Product } from "../../../models/Products";
 import ProudctReviewForm from "./ProductReviewForm";
+import { Star } from "react-ionicons";
 interface ReviewStarsInfo {
-  star: string;
+  star: any;
   percentage: string | number;
   totalReview: number;
 }
@@ -14,37 +15,56 @@ const ProductCustomerReview = ({
   const [isVisiable, setIsVisiable] = useState(false);
   const productReviewStars: ReviewStarsInfo[] = [
     {
-      star: "⭐⭐⭐⭐⭐",
-      percentage: "53",
-      totalReview: 8,
+      star: Stars(5),
+      percentage: "53.33",
+      totalReview: 4,
     },
     {
-      star: "⭐⭐⭐⭐",
-      percentage: "6.66",
-      totalReview: 1,
+      star: Stars(4),
+      percentage: "26.6",
+      totalReview: 4,
     },
     {
-      star: "⭐⭐⭐",
+      star: Stars(3),
       percentage: "0",
       totalReview: 0,
     },
     {
-      star: "⭐⭐",
-      percentage: "26.66",
-      totalReview: 4,
+      star: Stars(2),
+      percentage: "6.667",
+      totalReview: 1,
     },
+
     {
-      star: "⭐",
+      star: Stars(1),
       percentage: "13.3",
       totalReview: 2,
     },
   ];
+  function Stars(starCount: number) {
+    const totalStar = 5;
+    const renderStars = () => {
+      const stars = [];
+      for (let i = 1; i <= totalStar; i++) {
+        stars.push(
+          <i
+            style={{ color: i <= starCount ? "#F79327" : "" }}
+            className="fa-solid fa-star text-xl"
+          ></i>
+        );
+      }
+      return stars;
+    };
+
+    return renderStars();
+  }
   function handleReviewFormOnSubmit(review: {}) {
     console.log(review);
   }
   function handleClose() {
     setIsVisiable(false);
   }
+
   return (
     <>
       <div className="mb-[45px] mr-[35px]">
@@ -54,7 +74,7 @@ const ProductCustomerReview = ({
           <div className="md:flex md:flex-row flex-col">
             {/* left side */}
             <div className="m-3">
-              <p>{product?.rating}</p>
+              <p>{Stars(5)}</p>
               <p>Based on 15 Reviews</p>
             </div>
             {/* right side */}
@@ -104,7 +124,7 @@ const ProductReviewStars = ({
   percentage,
   totalReview,
 }: {
-  star: string;
+  star: any;
   percentage: string;
   totalReview: number;
 }) => {
@@ -124,7 +144,7 @@ const ProductReviewStars = ({
         <span className="mr-2 min-w-[65px]">
           {Math.round(parseInt(percentage))}% ({totalReview})
         </span>
-        <span className="w-[110px]">{star}</span>
+        <span className=" flex flex-row">{star}</span>
       </div>
     </>
   );
