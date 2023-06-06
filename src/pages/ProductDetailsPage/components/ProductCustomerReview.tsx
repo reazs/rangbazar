@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Product } from "../../../models/Products";
 import ProudctReviewForm from "./ProductReviewForm";
 import { Star } from "react-ionicons";
+import Utils from "../../../utils/ScreenTimeUtils";
 interface ReviewStarsInfo {
   star: any;
   percentage: string | number;
@@ -58,12 +59,10 @@ const ProductCustomerReview = ({
 
     return renderStars();
   }
-  const delay = (milliseconds: number) => {
-    return new Promise((resolve) => setTimeout(resolve, milliseconds));
-  };
+
   function handleReviewFormOnSubmit(review: {}) {
     console.log(review);
-    delay(2000).then(() => {
+    Utils.delay(2000).then(() => {
       handleClose();
     });
   }

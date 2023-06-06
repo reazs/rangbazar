@@ -1,13 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import OurVisionSVG from "../../assets/our-vision.svg";
 
 import Footer from "../../components/Footer";
 import TreeScrollAnimation from "../../components/TreeScrollAnimation";
+import ColorLoading from "../../components/ColorLoading";
+import Utils from "../../utils/ScreenTimeUtils";
 
 const AboutPage: React.FC = () => {
-  return (
+  const [isLoadingShow, setIsLoadingShow] = useState(true);
+  function handleIsShowLoading() {
+    setIsLoadingShow(false);
+  }
+  useEffect(() => {
+    Utils.delay(1000).then(() => {
+      setIsLoadingShow(false);
+    });
+  });
+  return isLoadingShow ? (
+    <>
+      <ColorLoading />
+    </>
+  ) : (
     <>
       <div className=" w-full ">
         <div className=" max-w-screen-md mx-auto ">
