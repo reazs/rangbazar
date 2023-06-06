@@ -80,7 +80,7 @@ const ProductDetailsPage: React.FC = () => {
       </div>
       {/* product description and details container*/}
       <ProductInfoContainer product={product} />
-     
+
       <Footer />
     </>
   );

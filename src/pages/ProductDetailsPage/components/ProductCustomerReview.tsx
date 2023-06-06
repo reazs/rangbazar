@@ -58,8 +58,14 @@ const ProductCustomerReview = ({
 
     return renderStars();
   }
+  const delay = (milliseconds: number) => {
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
+  };
   function handleReviewFormOnSubmit(review: {}) {
     console.log(review);
+    delay(2000).then(() => {
+      handleClose();
+    });
   }
   function handleClose() {
     setIsVisiable(false);
