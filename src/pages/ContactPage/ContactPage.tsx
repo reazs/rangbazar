@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ContactImg from "../../assets/contact-img.svg";
 import Footer from "../../components/Footer";
 import { Reveal } from "../../components/Reveal";
 import { SlideTransition } from "../../components/SlideTransition";
+import Utils from "../../utils/ScreenTimeUtils";
+import ColorLoading from "../../components/ColorLoading";
 const ContactPage: React.FC = () => {
-  return (
+  const [isLoadingShow, setIsLoadingShow] = useState(true);
+
+  useEffect(() => {
+    Utils.delay(500).then(() => {
+      setIsLoadingShow(false);
+    });
+  });
+  return isLoadingShow ? (
+    <>
+      <ColorLoading />
+    </>
+  ) : (
     <>
       <div className=" max-w-screen-xl mt-[100px]  mx-auto">
         <form className="px-[5%]">
@@ -12,7 +25,7 @@ const ContactPage: React.FC = () => {
             {/* left container */}
             <div>
               <Reveal>
-                <h4 className="text-6xl font-medium font-['Josefin-Sans']">
+                <h4 className="md:text-6xl text-4xl font-medium font-['Josefin-Sans']">
                   Love to hear from you, Get in Touch
                 </h4>
               </Reveal>

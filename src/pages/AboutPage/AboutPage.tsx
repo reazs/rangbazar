@@ -10,11 +10,9 @@ import Utils from "../../utils/ScreenTimeUtils";
 
 const AboutPage: React.FC = () => {
   const [isLoadingShow, setIsLoadingShow] = useState(true);
-  function handleIsShowLoading() {
-    setIsLoadingShow(false);
-  }
+
   useEffect(() => {
-    Utils.delay(1000).then(() => {
+    Utils.delay(800).then(() => {
       setIsLoadingShow(false);
     });
   });

@@ -34,7 +34,7 @@ const ProductDetailsPage: React.FC = () => {
   window.scrollTo(0, 0);
   const [isPresentShow, setPresentShow] = useState(true);
   function handleShowPresent() {
-    Utils.delay(600).then(() => setPresentShow(false));
+    Utils.delay(500).then(() => setPresentShow(false));
   }
   useEffect(() => {
     handleShowPresent();

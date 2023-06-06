@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Link } from "react-router-dom";
 import ProductCard from "../../components/ProductCard";
 import products from "../../models/Products";
@@ -7,6 +7,8 @@ import "./ShopPage.css";
 import { Reveal } from "../../components/Reveal";
 import Footer from "../../components/Footer";
 import SlideShow from "./components/SlideShow";
+import Utils from "../../utils/ScreenTimeUtils";
+import ColorLoading from "../../components/ColorLoading";
 
 const ShopPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,7 +18,18 @@ const ShopPage: React.FC = () => {
   const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
   const totalPage = Math.ceil(products.length / itemsPerPage);
 
-  return (
+  const [isLoadingShow, setIsLoadingShow] = useState(true);
+
+  useEffect(() => {
+    Utils.delay(800).then(() => {
+      setIsLoadingShow(false);
+    });
+  });
+  return isLoadingShow ? (
+    <>
+      <ColorLoading />
+    </>
+  ) : (
     <>
       <SlideShow />
       <div className="p-5 max-w-screen-xl mx-auto mt-[50px]">
