@@ -5,8 +5,7 @@ import { SlideTransition } from "../../components/SlideTransition";
 import Utils from "../../utils/ScreenTimeUtils";
 import ColorLoading from "../../components/ColorLoading";
 import ToematerTimer from "./ToematerTimer";
-import AnimatedRiveIcon from "../../components/AnimatedRiveIcon";
-import UtilAnimatedIcons from "../../utils/UtilAnimatedIcons";
+import UtilLoadRive from "../../utils/UtilLoadRive";
 
 const ContactPage: React.FC = () => {
   const [isLoadingShow, setIsLoadingShow] = useState(true);

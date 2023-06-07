@@ -1,5 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import RiveAddAnimatedBtn from "../../../components/RiveAddAnimatedBtn";
+import addBtnData from "../../../../public/add-to-cart-button.json";
+import Lottie from "lottie-react";
+import UtilRiveComponent from "../../../utils/UtilRiveComponent";
+import { Link } from "react-router-dom";
 const ProductAddItemContainer = () => {
   return (
     <>
@@ -17,12 +22,26 @@ const ProductAddItemContainer = () => {
               </div>
             </div>
             {/* add to cart button */}
-            <div className="md:w-[230px]  md:text-[16px] text-[12px] h-[52px] bg-primary-color px-[50px] mx-5 border-2 text-center flex flex-col justify-around text-white hover:bg-white hover:text-primary-color border-primary-color cursor-pointer">
+            {/* <div className="md:w-[230px]  md:text-[16px] text-[12px] h-[52px]  px-[50px] mx-5  text-center flex flex-col justify-around   cursor-pointer">
               <span className="">Add to Cart</span>
+            </div> */}
+            <div className="h-[52px] lg:w-[280px] w-[230px]">
+              <RiveAddAnimatedBtn
+                src={"../../../../public/add-animated-btn.riv"}
+              />
             </div>
             {/* add to favorite */}
-            <div className=" mx-[10px] h-full  p-4 border-gray-300 border flex flex-col justify-center hover:bg-primary-color hover:text-white cursor-pointer">
+            {/* <div className=" mx-[10px] h-full  p-4 border-gray-300 border flex flex-col justify-center hover:bg-primary-color hover:text-white cursor-pointer">
               <FontAwesomeIcon icon={faHeart} />
+            </div> */}
+            <div className=" h-[52px] w-[52px] ">
+              <Link to="#">
+                <UtilRiveComponent
+                  src="../../../../public/rive-heart-icons.riv"
+                  artboardName="favorite "
+                  isActive={false}
+                />
+              </Link>
             </div>
           </div>
         </div>

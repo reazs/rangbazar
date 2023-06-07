@@ -3,8 +3,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { motion as m } from "framer-motion";
 import CoverImage from "../../../assets/shopping.svg";
-const HomeCoverContainer: React.FC = () => {
+import UtilAnimatedRiveBtn from "../../../utils/UtilAnimatedRiveBtn";
 
+const HomeCoverContainer: React.FC = () => {
   return (
     <>
       <div className="w-full grid lg:grid-cols-2 grid-cols-1  lg:pt-[250px] pb-[130px]">
@@ -23,11 +24,11 @@ const HomeCoverContainer: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, ease: "easeInOut", delay: 0.5 }}
               >
-                <h3 className="big-heading font-bold font-['Merriweather'] text-primary-color">
+                <h3 className="big-heading md:text-start text-center font-bold font-['Merriweather'] text-primary-color">
                   Welcome To RangBazaar
                 </h3>
 
-                <p className="text-xl font-['Poppins'] ">
+                <p className="md:text-xl md:text-start text-center text-[16px] font-['Poppins'] ">
                   {/* Your ultimate destination for exquisite desi clothing and
                                   traditional materials. */}
                   Immerse yourself in our vibrant collection, curated with love,
@@ -36,14 +37,19 @@ const HomeCoverContainer: React.FC = () => {
                 </p>
               </m.div>
               <div className=" overflow-hidden">
-                <Link to={"#"}>
+                <Link to={"/shop"}>
                   <m.div
                     initial={{ x: "-100%", opacity: 0.3 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ duration: 0.45, delay: 0.3, ease: "easeIn" }}
-                    className="py-4 inline-block text-white hover:bg-red-500 px-20 bg-red-400 mt-4 rounded-md shadow-md "
+                    style={{ position: "relative", top: "-10" }}
+                    className="py-4  mx-auto md:mx-0    h-[160px] w-[210px] "
                   >
-                    Get Started
+                    <UtilAnimatedRiveBtn
+                      src="rive-cat-button.riv"
+                      stateMachineName="State Machine 1"
+                      autoplay={true}
+                    />
                   </m.div>
                 </Link>
               </div>

@@ -2,6 +2,8 @@ import { useRef, useEffect, useState } from "react";
 import { SlideTransition } from "../../../components/SlideTransition";
 import Lottie from "lottie-react";
 import checkDoneData from "../../../../public/chekc-done.json";
+import UtilLoadRive from "../../../utils/UtilLoadRive";
+import Utils from "../../../utils/ScreenTimeUtils";
 interface Review {
   title: string;
   comment: string;
@@ -38,6 +40,7 @@ const ProudctReviewForm = ({
           if (starValue && selectedValue) {
             if (parseInt(starValue) <= parseInt(selectedValue)) {
               star.classList.add("star-hovered");
+              setSelectedStar(parseInt(starValue));
             } else {
               star.classList.remove("star-hovered");
             }
@@ -77,6 +80,11 @@ const ProudctReviewForm = ({
   useEffect(() => {
     document.addEventListener("mousedown", handleHoverOutSide);
     document.addEventListener("mouseover", handleHoverOnStar);
+    if (isComplete) {
+      Utils.delay(3500).then(() => {
+        handleClose();
+      });
+    }
     return () => {
       document.removeEventListener("mousedown", handleHoverOutSide);
       document.removeEventListener("mouseover", handleHoverOnStar);
@@ -92,15 +100,13 @@ const ProudctReviewForm = ({
           >
             {isComplete ? (
               <>
-                <Lottie
-                  height={"200px"}
-                  animationData={checkDoneData}
-                  autoplay={true}
-                  loop={true}
-                ></Lottie>
-                <h3 className="text-3xl josefine-sans text-center">
-                  Thank you for your feedback{" "}
-                </h3>
+                <div className="h-[250px] w-[250px]">
+                  <UtilLoadRive
+                    src="../../../../public/riveAssets/confetti.riv"
+                    stateMachineName="Explosion"
+                    autoplay={true}
+                  />
+                </div>
               </>
             ) : (
               <form>
