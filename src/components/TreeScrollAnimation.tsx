@@ -39,7 +39,6 @@ const TreeScrollAnimation = () => {
       if (treeLevel) {
         treeLevel.value = scrollPercentage;
       }
-      console.log(scrollY);
     }
     function handleResize() {
       setWindowWidth(window.innerWidth);
@@ -74,4 +73,4 @@ const TreeScrollAnimation = () => {
   );
 };
 
-export default TreeScrollAnimation
+export default TreeScrollAnimation;

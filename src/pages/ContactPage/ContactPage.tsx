@@ -1,18 +1,34 @@
-import React, { useState, useEffect } from "react";
-import ContactImg from "../../assets/contact-img.svg";
+import React, { useState, useEffect, useRef } from "react";
 import Footer from "../../components/Footer";
 import { Reveal } from "../../components/Reveal";
 import { SlideTransition } from "../../components/SlideTransition";
 import Utils from "../../utils/ScreenTimeUtils";
 import ColorLoading from "../../components/ColorLoading";
+import ToematerTimer from "./ToematerTimer";
+import AnimatedRiveIcon from "../../components/AnimatedRiveIcon";
+import UtilAnimatedIcons from "../../utils/UtilAnimatedIcons";
+
 const ContactPage: React.FC = () => {
   const [isLoadingShow, setIsLoadingShow] = useState(true);
+  const [isShowingImg, setIsShowingImg] = useState(true);
+  function handleResize() {
+    if (document.documentElement.clientWidth < 1024) {
+      setIsShowingImg(false);
+    } else {
+      setIsShowingImg(true);
+    }
+  }
 
   useEffect(() => {
     Utils.delay(500).then(() => {
       setIsLoadingShow(false);
     });
-  });
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [handleResize]);
   return isLoadingShow ? (
     <>
       <ColorLoading />
@@ -33,18 +49,21 @@ const ContactPage: React.FC = () => {
                 Your Name
               </p>
               <input
-                className="mb-6  h-10 text-center w-[80%] px-2 focus:outline-none focus:border-b-2 focus:border-b-primary-color"
+                className="mb-6  h-10 text-center w-[100%] px-2 focus:outline-none focus:border-b-2 focus:border-b-primary-color"
                 placeholder="John Wick"
               ></input>
               <p className="text-xl font-['Quicksand']  ">Your Email</p>
               <input
-                className="mb-6  h-10 text-center w-[80%] px-2 focus:outline-none focus:border-b-2 focus:border-b-primary-color"
+                className="mb-6  h-10 text-center w-[100%] px-2 focus:outline-none focus:border-b-2 focus:border-b-primary-color"
                 placeholder="example@gmail.com"
               ></input>
               <p className="mb-6 text-xl font-['Quicksand']  ">
                 Your Request is for
               </p>
-              <select className="mb-6 w-[80%] h-10" id="request-for">
+              <select
+                className="mb-6 w-[100%] h-10 text-center"
+                id="request-for"
+              >
                 <option className="py-5">Customer Servise</option>
                 <option className="py-5">Submiting a Complaint</option>
                 <option className="py-5">To report a bugs</option>
@@ -57,6 +76,7 @@ const ContactPage: React.FC = () => {
                 placeholder="How can we help?"
               ></textarea>
               <button
+                id="submit-btn"
                 type="submit"
                 className="h-14 w-full text-center border-2 hover:bg-primary-color hover:text-white "
               >
@@ -65,9 +85,14 @@ const ContactPage: React.FC = () => {
             </div>
 
             {/* right container */}
-            <div className="flex flex-col justify-end px-5">
+            <div
+              style={{
+                display: isShowingImg ? "" : "none",
+              }}
+              className="flex flex-col justify-end px-5"
+            >
               <SlideTransition>
-                <img src={ContactImg} />
+                <ToematerTimer />
               </SlideTransition>
             </div>
           </div>
