@@ -4,6 +4,7 @@ import Lottie from "lottie-react";
 import checkDoneData from "../../../../public/chekc-done.json";
 import UtilLoadRive from "../../../utils/UtilLoadRive";
 import Utils from "../../../utils/ScreenTimeUtils";
+import { useRive } from "rive-react";
 interface Review {
   title: string;
   comment: string;
@@ -115,7 +116,9 @@ const ProudctReviewForm = ({
                 </h3>
 
                 <h3 className="review-form-label">Rating Proudct</h3>
-                <div className="mb-2">{Stars()}</div>
+                <div className="mb-2 h-[65px] w-[220px] cursor-pointer">
+                  {<RatingAnimatedStar />}
+                </div>
                 <h3 className="review-form-label">Title</h3>
                 <input
                   id="title"
@@ -172,3 +175,23 @@ const ProudctReviewForm = ({
   ) : null;
 };
 export default ProudctReviewForm;
+
+const RatingAnimatedStar = () => {
+  const { rive, RiveComponent } = useRive({
+    src: "../../../../public/riveAssets/rating-stars.riv",
+    stateMachines: "State Machine 1",
+    autoplay: true,
+    onStateChange: (e) => {
+      const data: [] = e.data as [];
+      const status = data.toString();
+      console.log(status);
+    },
+  });
+  return (
+    <>
+      <div className="h-full w-full">
+        <RiveComponent />
+      </div>
+    </>
+  );
+};

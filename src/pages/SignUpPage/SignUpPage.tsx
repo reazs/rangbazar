@@ -53,6 +53,10 @@ const SignUpPage = () => {
                   className="mb-6  h-10 text-center w-[100%] px-2 border-b-2 focus:outline-none focus:border-b-2 focus:border-b-primary-color"
                   placeholder="Enter Your Password"
                 ></input>
+
+                <div className="h-[109.5px] w-[225px] cursor-pointer ">
+                  <UtilLoadRive src="./riveAssets/submit-btn.riv" />
+                </div>
               </form>
             </div>
           </div>

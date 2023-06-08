@@ -7,6 +7,7 @@ import ColorLoading from "../../components/ColorLoading";
 import ToematerTimer from "./ToematerTimer";
 
 import { Layout, Fit, useRive, Alignment } from "rive-react";
+import UtilLoadRive from "../../utils/UtilLoadRive";
 
 const ContactPage: React.FC = () => {
   const [isLoadingShow, setIsLoadingShow] = useState(true);

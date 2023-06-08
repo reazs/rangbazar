@@ -13,7 +13,7 @@ const UtilLoadRive = ({
     src: src,
     autoplay: autoplay,
     layout: new Layout({
-      fit: Fit.Contain,
+      fit: Fit.Cover,
       alignment: Alignment.Center,
     }),
     stateMachines: stateMachineName,
