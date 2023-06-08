@@ -17,7 +17,7 @@ const UtilAnimatedRiveBtn = ({
     autoplay: autoplay,
     layout: new Layout({
       alignment: Alignment.Center,
-      fit: Fit.Cover,
+      fit: Fit.Contain,
     }),
   });
   return (

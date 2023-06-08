@@ -100,7 +100,7 @@ const ProudctReviewForm = ({
           >
             {isComplete ? (
               <>
-                <div className="h-[250px] w-[250px]">
+                <div className="h-[250px] w-[250px] md:h-[400px] md:w-[400px]">
                   <UtilLoadRive
                     src="../../../../public/riveAssets/confetti.riv"
                     stateMachineName="Explosion"

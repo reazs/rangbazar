@@ -14,6 +14,7 @@ import {
 } from "@material-tailwind/react";
 import Navbrand from "./navbrand";
 import ProductDetailsPage from "../pages/ProductDetailsPage/ProductDetailsPage";
+import SignUpPage from "../pages/SignUpPage/SignUpPage";
 
 export default function Example() {
   const [openNav, setOpenNav] = React.useState(false);
@@ -105,7 +106,7 @@ export default function Example() {
             className="mr-4 cursor-pointer py-1.5 font-medium"
           >
             {/* navbrand */}
-            <div className="">
+            <div className="h-[40px] w-[140px]">
               <Navbrand />
             </div>
           </Typography>
@@ -181,6 +182,7 @@ export default function Example() {
           path="/shop/product-details/:title/:productId"
           element={<ProductDetailsPage />}
         />
+        <Route path="/sign-up" element={<SignUpPage />} />
       </Routes>
     </>
   );

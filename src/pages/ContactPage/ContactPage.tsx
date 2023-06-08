@@ -5,7 +5,8 @@ import { SlideTransition } from "../../components/SlideTransition";
 import Utils from "../../utils/ScreenTimeUtils";
 import ColorLoading from "../../components/ColorLoading";
 import ToematerTimer from "./ToematerTimer";
-import UtilLoadRive from "../../utils/UtilLoadRive";
+
+import { Layout, Fit, useRive, Alignment } from "rive-react";
 
 const ContactPage: React.FC = () => {
   const [isLoadingShow, setIsLoadingShow] = useState(true);
@@ -96,7 +97,6 @@ const ContactPage: React.FC = () => {
             </div>
           </div>
         </form>
-
         <Footer />
       </div>
     </>

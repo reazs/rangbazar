@@ -1,16 +1,33 @@
 import React from "react";
 import RangBazarLogo from ".././assets/rangbazar-logo.png";
+import { Layout, Fit, useRive, Alignment } from "rive-react";
 
 const Navbrand: React.FC = () => {
   return (
     <>
-      <span className="font-['Poppins'] font-bold ">
-        <span className="text-pink-500">Rang</span>
-        <span className="text-teal-500">Bazaar</span>
-      </span>
-      <img className="inline-block" src={RangBazarLogo} width={35} />
+      <RangBazaarLogo />
     </>
   );
 };
 
 export default Navbrand;
+
+const RangBazaarLogo = () => {
+  const { RiveComponent } = useRive({
+    src: "./riveAssets/rangbazaar-logo.riv",
+    stateMachines: "rangbazaar",
+    autoplay: true,
+    layout: new Layout({
+      fit: Fit.Contain,
+      alignment: Alignment.Center,
+    }),
+  });
+
+  return (
+    <>
+      <div className="h-full w-full">
+        <RiveComponent />
+      </div>
+    </>
+  );
+};
