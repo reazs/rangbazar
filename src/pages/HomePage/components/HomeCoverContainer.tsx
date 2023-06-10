@@ -25,7 +25,7 @@ const HomeCoverContainer: React.FC = () => {
                 transition={{ duration: 0.5, ease: "easeInOut", delay: 0.5 }}
               >
                 <h3 className="big-heading md:text-start text-center font-bold font-['Merriweather'] text-primary-color">
-                  Welcome To <p className="font-['Offside']">rangbazaar</p>
+                  <p className="font-['Offside']">Welcome To rangbazaar</p>
                 </h3>
 
                 <p className="md:text-xl md:text-start text-center text-[16px] font-['Poppins'] ">

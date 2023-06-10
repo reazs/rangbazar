@@ -178,7 +178,7 @@ export default ProudctReviewForm;
 
 const RatingAnimatedStar = () => {
   const { rive, RiveComponent } = useRive({
-    src: "../../../../public/riveAssets/rating-stars.riv",
+    src: "../../../../public/riveAssets/rating-orange-star.riv",
     stateMachines: "State Machine 1",
     autoplay: true,
     onStateChange: (e) => {

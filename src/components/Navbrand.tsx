@@ -14,7 +14,7 @@ export default Navbrand;
 
 const RangBazaarLogo = () => {
   const { RiveComponent } = useRive({
-    src: "./riveAssets/rangbazaar-logo.riv",
+    src: "../../public/riveAssets/rangbazaar-logo.riv",
     stateMachines: "rangbazaar",
     autoplay: true,
     layout: new Layout({
