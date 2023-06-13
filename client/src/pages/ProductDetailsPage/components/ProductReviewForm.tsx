@@ -103,7 +103,7 @@ const ProudctReviewForm = ({
               <>
                 <div className="h-[250px] w-[250px] md:h-[400px] md:w-[400px]">
                   <UtilLoadRive
-                    src="../../../../public/riveAssets/confetti.riv"
+                    src="/riveAssets/confetti.riv"
                     stateMachineName="Explosion"
                     autoplay={true}
                   />
@@ -178,7 +178,7 @@ export default ProudctReviewForm;
 
 const RatingAnimatedStar = () => {
   const { rive, RiveComponent } = useRive({
-    src: "../../../../public/riveAssets/rating-orange-star.riv",
+    src: "/riveAssets/rating-orange-star.riv",
     stateMachines: "State Machine 1",
     autoplay: true,
     onStateChange: (e) => {

@@ -26,9 +26,7 @@ const ProductAddItemContainer = () => {
               <span className="">Add to Cart</span>
             </div> */}
             <div className="h-[52px] lg:w-[280px] w-[230px]">
-              <RiveAddAnimatedBtn
-                src={"../../../../public/add-animated-btn.riv"}
-              />
+              <RiveAddAnimatedBtn src={"/add-animated-btn.riv"} />
             </div>
             {/* add to favorite */}
             {/* <div className=" mx-[10px] h-full  p-4 border-gray-300 border flex flex-col justify-center hover:bg-primary-color hover:text-white cursor-pointer">
@@ -37,7 +35,7 @@ const ProductAddItemContainer = () => {
             <div className=" h-[52px] w-[52px] ">
               <Link to="#">
                 <UtilRiveComponent
-                  src="../../../../public/rive-heart-icons.riv"
+                  src="/rive-heart-icons.riv"
                   artboardName="favorite "
                   isActive={false}
                 />

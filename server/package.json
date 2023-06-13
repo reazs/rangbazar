@@ -1,0 +1,21 @@
+{
+  "name": "rangbazaarserver",
+  "version": "1.0.0",
+  "description": "this is backend for rangbazaar server",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Reaz Shakil, Refat Ullah",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.1.4",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongodb": "^5.6.0",
+    "mongoose": "^7.2.3",
+    "mongoose-auto-increment": "^5.0.1"
+  }
+}
