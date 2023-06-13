@@ -1,14 +1,16 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const User = require("../models/userModel.js");
+const cors = require("cors");
+
 const jwt = require("jsonwebtoken");
 const { error } = require("console");
 const blacklist = [];
 require("dotenv").config();
-
+express(cors());
 router = express.Router();
 
-router.post("/", async (req, res) => {
+router.post("/sign-up", async (req, res) => {
   try {
     const { fName, lName, email, password } = req.body;
     console.log(fName);
@@ -20,20 +22,20 @@ router.post("/", async (req, res) => {
       password: hashPassword,
     });
     const savedUser = await newUser.save();
-    res.json(savedUser);
+    return res.json(savedUser);
   } catch (error) {
-    res.status(500).json({ error: "Failed to create user" });
+    return res.status(500).json({ error: "Failed to create user" });
   }
 });
 
-router.get("/", async (req, res) => {
+router.post("/sign-in", async (req, res) => {
   try {
     const secretKey = process.env.SECRET_KEY;
     console.log(secretKey);
     const { email, password } = req.body;
     const user = await User.findOne({ email: email }).exec();
     if (!user) {
-      res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -47,24 +49,24 @@ router.get("/", async (req, res) => {
         },
         secretKey
       );
-      res.json({
+      return res.json({
         status: "ok",
         data: token,
       });
     } else {
-      res.status(401).json({ error: "Invalid Password" });
+      return res.status(401).json({ error: "Invalid Password" });
     }
   } catch (error) {
-    res.status(500).json({ error: "Failed to Find user" });
+    return res.status(500).json({ error: "Failed to Find user" });
   }
 });
-router.get("/userData", async (req, res) => {
+router.post("/userData", async (req, res) => {
   const secretKey = process.env.SECRET_KEY;
   const { token } = req.body;
   try {
     const user = jwt.verify(token, secretKey);
     if (user === "Token Expired" || blacklist.includes(token)) {
-      res.json({ status: "bad", error: "Token Expired" });
+      return res.json({ status: "bad", error: "Token Expired" });
     } else {
       res.json({
         status: "ok",
@@ -73,10 +75,10 @@ router.get("/userData", async (req, res) => {
     }
   } catch (error) {
     console.log("error token expired");
-    res.json({ status: "bad", code: 500 });
+    return res.json({ status: "bad", code: 500 });
   }
 });
-router.get("/loadUser", async (req, res) => {
+router.post("/loadUser", async (req, res) => {
   const secretKey = process.env.SECRET_KEY;
   const { token } = req.body;
   try {
@@ -86,25 +88,25 @@ router.get("/loadUser", async (req, res) => {
       }
       return result;
     });
-    if (user === "Expired Token" || blacklist.includes(token)) {
-      res.json({ status: "ok", data: "Token Expired" });
+    if (user === "Expired Token") {
+      return res.json({ status: "ok", data: "Token Expired" });
     } else {
-      res.json({ status: "ok", data: user });
+      return res.json({ status: "ok", data: user });
     }
   } catch (error) {
-    res.status(500).json({ error: error });
+    return res.status(500).json({ error: error });
   }
 });
 
-router.get("/logout", async (req, res) => {
+router.post("/logout", async (req, res) => {
   try {
     const { token } = req.body;
     blacklist.push(token);
     console.log(blacklist);
-    res.json({ status: "ok", message: "User successfully logged out" });
+    return res.json({ status: "ok", message: "User successfully logged out" });
   } catch (error) {
     console.log(error);
-    res.json({ error: error });
+    return res.json({ error: error });
   }
 });
 module.exports = router;

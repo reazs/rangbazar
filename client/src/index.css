@@ -30,6 +30,9 @@ body {
   padding-left: 3px;
   font-weight: 600;
 }
+.logo-fontstyle {
+  font-family: "Offside";
+}
 .large-first-letter:first-letter {
   color: #191919;
   float: left;

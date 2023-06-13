@@ -15,6 +15,8 @@ import {
 import Navbrand from "./navbrand";
 import ProductDetailsPage from "../pages/ProductDetailsPage/ProductDetailsPage";
 import SignUpPage from "../pages/SignUpPage/SignUpPage";
+import SignInPage from "../pages/SignInPage/SignInPage";
+import UserHomePage from "../pages/userPage/userHomePage";
 
 export default function Example() {
   const [openNav, setOpenNav] = React.useState(false);
@@ -117,7 +119,9 @@ export default function Example() {
               size="sm"
               className="hidden lg:inline-block text-black border border-white hover:bg-primary-color hover:text-white rounded-md"
             >
-              <span>Log In</span>
+              <Link to={"/sign-in"}>
+                <span>Sign In</span>
+              </Link>
             </Button>
             <IconButton
               variant="text"
@@ -166,7 +170,9 @@ export default function Example() {
             fullWidth
             className="text-center border text-black border-white hover:bg-primary-color hover:text-white rounded-md"
           >
-            <span className="">Log In</span>
+            <Link to={"/sign-in"}>
+              <span>Sign In</span>
+            </Link>
           </Button>
         </Collapse>
       </Navbar>
@@ -183,6 +189,8 @@ export default function Example() {
           element={<ProductDetailsPage />}
         />
         <Route path="/sign-up" element={<SignUpPage />} />
+        <Route path="/sign-in" element={<SignInPage />} />
+        <Route path="/user" element={<UserHomePage />} />
       </Routes>
     </>
   );
