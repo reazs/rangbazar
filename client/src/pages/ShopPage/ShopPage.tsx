@@ -7,7 +7,7 @@ import "./ShopPage.css";
 import { Reveal } from "../../components/Reveal";
 import Footer from "../../components/Footer";
 import SlideShow from "./components/SlideShow";
-import Utils from "../../utils/ScreenTimeUtils";
+import Utils from "../../utils/Utils";
 import ColorLoading from "../../components/ColorLoading";
 
 const ShopPage: React.FC = () => {

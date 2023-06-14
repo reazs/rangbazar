@@ -68,7 +68,7 @@ router.post("/userData", async (req, res) => {
     if (user === "Token Expired" || blacklist.includes(token)) {
       return res.json({ status: "bad", error: "Token Expired" });
     } else {
-      res.json({
+      return res.json({
         status: "ok",
         data: { user },
       });
@@ -88,10 +88,12 @@ router.post("/loadUser", async (req, res) => {
       }
       return result;
     });
-    if (user === "Expired Token") {
+    if (user === "Expired Token" || blacklist.includes(token)) {
       return res.json({ status: "ok", data: "Token Expired" });
     } else {
-      return res.json({ status: "ok", data: user });
+      const userDetails = await User.findById(user.userId).select("-password");
+
+      return res.json({ status: "ok", data: userDetails });
     }
   } catch (error) {
     return res.status(500).json({ error: error });

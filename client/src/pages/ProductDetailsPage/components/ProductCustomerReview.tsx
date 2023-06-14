@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Product } from "../../../models/Products";
 import ProudctReviewForm from "./ProductReviewForm";
 import { Star } from "react-ionicons";
-import Utils from "../../../utils/ScreenTimeUtils";
+import Utils from "../../../utils/Utils";
 interface ReviewStarsInfo {
   star: any;
   percentage: string | number;

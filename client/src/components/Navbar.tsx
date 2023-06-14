@@ -1,5 +1,5 @@
-import React from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import HomePage from "../pages/HomePage/HomePage";
 import AboutPage from "../pages/AboutPage/AboutPage";
 import ShopPage from "../pages/ShopPage/ShopPage";
@@ -16,18 +16,49 @@ import Navbrand from "./navbrand";
 import ProductDetailsPage from "../pages/ProductDetailsPage/ProductDetailsPage";
 import SignUpPage from "../pages/SignUpPage/SignUpPage";
 import SignInPage from "../pages/SignInPage/SignInPage";
-import UserHomePage from "../pages/userPage/userHomePage";
-
-export default function Example() {
+import UserHomePage from "../pages/UserPage/UserHomePage";
+import Utils from "../utils/Utils";
+import Error404Page from "../pages/ErrorPage/Error404Page";
+import BASE_URL from "../config/BaseURL";
+export default function NavBarEx() {
   const [openNav, setOpenNav] = React.useState(false);
-
+  const [isUser, setIsUser] = useState<boolean>();
+  const navigate = useNavigate();
+  async function loadUser() {
+    const data = await Utils.loadUser();
+    if (data == "Token Expired") {
+      setIsUser(false);
+    } else {
+      setIsUser(true);
+    }
+    console.log(data);
+  }
   React.useEffect(() => {
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
+    loadUser();
   }, []);
-
+  async function handleLogout() {
+    const url = BASE_URL + "/users/logout";
+    const token = window.localStorage.getItem("token");
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token: token,
+      }),
+    });
+    const responseData = await response.json();
+    console.log(responseData);
+    if (responseData.status == "ok") {
+      navigate("/sign-in");
+      window.location.reload();
+    }
+  }
   const navList = (
     <ul className="mb-4 mt-2  flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       <Typography
@@ -46,6 +77,24 @@ export default function Example() {
           Home
         </Link>
       </Typography>
+      {isUser && (
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="p-1 font-normal"
+        >
+          <Link
+            onClick={() => {
+              window.scrollTo(0, 0);
+            }}
+            to="/user"
+            className="flex items-center"
+          >
+            User
+          </Link>
+        </Typography>
+      )}
       <Typography
         as="li"
         variant="small"
@@ -119,9 +168,17 @@ export default function Example() {
               size="sm"
               className="hidden lg:inline-block text-black border border-white hover:bg-primary-color hover:text-white rounded-md"
             >
-              <Link to={"/sign-in"}>
-                <span>Sign In</span>
-              </Link>
+              {isUser ? (
+                <>
+                  <span onClick={handleLogout}>Log Out</span>
+                </>
+              ) : (
+                <>
+                  <Link to={"/sign-in"}>
+                    <span>Sign In</span>
+                  </Link>
+                </>
+              )}
             </Button>
             <IconButton
               variant="text"
@@ -170,14 +227,23 @@ export default function Example() {
             fullWidth
             className="text-center border text-black border-white hover:bg-primary-color hover:text-white rounded-md"
           >
-            <Link to={"/sign-in"}>
-              <span>Sign In</span>
-            </Link>
+            {isUser ? (
+              <>
+                <span onClick={handleLogout}>Log Out</span>
+              </>
+            ) : (
+              <>
+                <Link to={"/sign-in"}>
+                  <span>Sign In</span>
+                </Link>
+              </>
+            )}
           </Button>
         </Collapse>
       </Navbar>
 
       {/* creating routes */}
+
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
@@ -190,6 +256,8 @@ export default function Example() {
         />
         <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/sign-in" element={<SignInPage />} />
+        <Route path="/user" element={<UserHomePage />} />
+        <Route path="/error-404" element={<Error404Page />} />
         <Route path="/user" element={<UserHomePage />} />
       </Routes>
     </>

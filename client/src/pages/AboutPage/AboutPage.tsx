@@ -6,7 +6,7 @@ import OurVisionSVG from "../../assets/our-vision.svg";
 import Footer from "../../components/Footer";
 import TreeScrollAnimation from "../../components/TreeScrollAnimation";
 import ColorLoading from "../../components/ColorLoading";
-import Utils from "../../utils/ScreenTimeUtils";
+import Utils from "../../utils/Utils";
 
 const AboutPage: React.FC = () => {
   const [isLoadingShow, setIsLoadingShow] = useState(true);

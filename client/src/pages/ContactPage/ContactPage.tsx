@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Footer from "../../components/Footer";
 import { Reveal } from "../../components/Reveal";
 import { SlideTransition } from "../../components/SlideTransition";
-import Utils from "../../utils/ScreenTimeUtils";
+import Utils from "../../utils/Utils";
 import ColorLoading from "../../components/ColorLoading";
 import ToematerTimer from "./ToematerTimer";
 

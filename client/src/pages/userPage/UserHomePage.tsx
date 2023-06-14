@@ -1,39 +1,90 @@
 import { useEffect, useState } from "react";
-
+import Utils from "../../utils/Utils";
+import { Link, useNavigate } from "react-router-dom";
+import ProductCard from "../../components/ProductCard";
+import Footer from "../../components/Footer";
+import UserTopContainer from "./UserTopContainer";
+import UserFeaturedContainer from "./UserFeaturedContainer";
+import products from "../../models/Products";
 const UserHomePage = () => {
-  const [token, setToken] = useState("");
   const [userId, setUserId] = useState("");
-  var data: any = {};
+  const [fName, setFName] = useState("");
+  const [lName, setLName] = useState("");
+  const [email, setEmail] = useState("");
+  const navigator = useNavigate();
   const loadUser = async () => {
-    const tk = window.localStorage.getItem("token") as string;
-    setToken(tk);
-    if (token) {
-      const url = "http://localhost:3000/users/loadUser";
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token: token,
-        }),
-      });
-
-      const responseData = await response.json();
-      console.log(responseData);
-      setUserId(responseData.data.userId);
+    const data = await Utils.loadUser();
+    if (data == "Token Expired") {
+      navigator("/error-404");
     }
+    setUserId(data._id);
+    setFName(data.fName);
+    setLName(data.lName);
+    setEmail(data.email);
   };
-
+  function focus() {
+    const searchFeild = document.getElementById(
+      "search-feild"
+    ) as HTMLInputElement;
+    const searchContainer = document.getElementById(
+      "search-container"
+    ) as HTMLDivElement;
+    const searchIcon = document.getElementById("search-icon") as HTMLElement;
+    searchFeild.addEventListener("focus", () => {
+      searchContainer.classList.add("border-2");
+      searchContainer.classList.add("rounded-md");
+      searchIcon.classList.remove("text-gray-300");
+      searchIcon.classList.add("text-black");
+    });
+    searchFeild.addEventListener("blur", () => {
+      searchContainer.classList.remove("border-2");
+      searchContainer.classList.remove("rounded-md");
+      searchIcon.classList.add("text-gray-300");
+      searchIcon.classList.remove("text-black");
+    });
+  }
+  const favoriteItems = products.slice(8, 10);
   useEffect(() => {
     loadUser();
-  }, [loadUser]);
+    focus();
+  }, []);
 
   return (
     <>
-      <p>UserID: {userId}</p>
-      <p>{token}</p>
-      <h1 className="big-heading">User Home Page</h1>
+      <div className=" max-w-screen-xl mx-auto">
+        <div className="mt-[100px] lg:mx-20 mx-10">
+          <UserTopContainer />
+          <UserFeaturedContainer />
+          <div className="mt-10">
+            <div className="flex flex-row josefin-sans justify-between">
+              <p className="md:text-2xl text-xl font-medium  text-gray-400">
+                Favorites
+              </p>
+              <p className="text-xl text-gray-400">See All</p>
+            </div>
+            <div className="grid md:grid-cols-3 grid-cols-2 gap-2">
+              {favoriteItems.map((products) => {
+                return (
+                  <>
+                    <Link
+                      to={
+                        "/shop/product-details/" +
+                        products.title +
+                        "/" +
+                        products.id
+                      }
+                    >
+                      <ProductCard {...products} />
+                    </Link>
+                  </>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+        {/* Footer */}
+        <Footer />
+      </div>
     </>
   );
 };

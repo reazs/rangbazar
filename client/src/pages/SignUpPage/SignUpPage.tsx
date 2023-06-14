@@ -3,9 +3,10 @@ import Footer from "../../components/Footer";
 import { Reveal } from "../../components/Reveal";
 import UtilLoadRive from "../../utils/UtilLoadRive";
 import { emailRegex, passwordRegex } from "../../utils/regexUtils";
-import Utils from "../../utils/ScreenTimeUtils";
+import Utils from "../../utils/Utils";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import BASE_URL from "../../config/BaseURL";
 const SignUpPage = () => {
   const navigate = useNavigate();
   const [fName, setFname] = useState("");
@@ -18,7 +19,7 @@ const SignUpPage = () => {
 
   async function handleLogin() {
     if (isValidEmail && isValidPassword && passwordMatch) {
-      const url = "http://localhost:3000/users/sign-up";
+      const url = BASE_URL + "/users/sign-up";
       try {
         const data = {
           fName: fName,

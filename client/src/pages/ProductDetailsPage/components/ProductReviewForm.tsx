@@ -3,7 +3,7 @@ import { SlideTransition } from "../../../components/SlideTransition";
 import Lottie from "lottie-react";
 import checkDoneData from "../../../../public/chekc-done.json";
 import UtilLoadRive from "../../../utils/UtilLoadRive";
-import Utils from "../../../utils/ScreenTimeUtils";
+import Utils from "../../../utils/Utils";
 import { useRive } from "rive-react";
 interface Review {
   title: string;

@@ -12,7 +12,7 @@ import ProductAddItemContainer from "./components/ProductAddItemContainer";
 import loadingLottieData from "../../../public/colors-loading.json";
 import PresentAnimation from "../../components/PresentAnimation";
 import Lottie from "lottie-react";
-import Utils from "../../utils/ScreenTimeUtils";
+import Utils from "../../utils/Utils";
 import ColorLoading from "../../components/ColorLoading";
 import RiveAddAnimatedBtn from "../../components/RiveAddAnimatedBtn";
 const ProductDetailsPage: React.FC = () => {
@@ -97,7 +97,7 @@ const ProductDetailsPage: React.FC = () => {
           </div>
           {/* product description and details container*/}
           <ProductInfoContainer product={product} />
-  
+
           <Footer />
         </>
       )}

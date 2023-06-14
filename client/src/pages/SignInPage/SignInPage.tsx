@@ -3,14 +3,16 @@ import { emailRegex } from "../../utils/regexUtils";
 import { Reveal } from "../../components/Reveal";
 import { Layout, Fit, useRive, Alignment } from "rive-react";
 import UtilLoadRive from "../../utils/UtilLoadRive";
-import { Link } from "react-router-dom";
-import Utils from "../../utils/ScreenTimeUtils";
+import { Link, useNavigate } from "react-router-dom";
+import Utils from "../../utils/Utils";
+import BASE_URL from "../../config/BaseURL";
 const SignInPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isValidEmail, setIsValidEmail] = useState<boolean>();
   const [userFound, setUserFound] = useState<boolean>();
   const [isValidPassword, setIsValidPassword] = useState<boolean>();
+  const navigate = useNavigate();
   const { RiveComponent } = useRive({
     src: "./riveAssets/gang.riv",
     artboard: "Action!",
@@ -20,33 +22,36 @@ const SignInPage = () => {
   });
   const handleSignIn = async () => {
     try {
-      const url = "http://localhost:3000/users/sign-in";
+      const url = BASE_URL + "/users/sign-in";
       const data = {
         email: email,
         password: password,
       };
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      const responseData = await response.json();
+      if (isValidEmail) {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        const responseData = await response.json();
 
-      Utils.delay(1000).then(() => {
-        if (responseData.error == "Invalid Password") {
-          setIsValidPassword(false);
-        } else if (response.status == 404) {
-          setUserFound(false);
-        }
-        if (responseData.status == "ok") {
-          setUserFound(true);
-          const token = responseData.data;
-          window.localStorage.setItem("token", token);
-          console.log(token);
-        }
-      });
+        Utils.delay(1000).then(() => {
+          if (responseData.error == "Invalid Password") {
+            setIsValidPassword(false);
+          } else if (response.status == 404) {
+            setUserFound(false);
+          }
+          if (responseData.status == "ok") {
+            setUserFound(true);
+            const token = responseData.data;
+            window.localStorage.setItem("token", token);
+            navigate("/user");
+            window.location.reload();
+          }
+        });
+      }
     } catch (error) {
       console.log({ error: error });
     }
@@ -135,9 +140,11 @@ const SignInPage = () => {
               {/* submit btn */}
               <div
                 onClick={handleSignIn}
-                className="h-[109.5px] w-[225px] cursor-pointer "
+                className="h-[109.5px] md:w-[225px] md:mt-0 mt-5 w-full cursor-pointer "
               >
-                <UtilLoadRive src="./riveAssets/submit-btn.riv" />
+                <div className="h-[60%] w-full bg-opacity-90 rounded-md hover:bg-opacity-[1] bg-primary-color flex flex-row justify-center items-center">
+                  <p className="text-2xl text-white">Sign In</p>
+                </div>
               </div>
             </div>
           </div>
