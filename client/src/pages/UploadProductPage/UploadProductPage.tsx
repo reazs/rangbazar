@@ -1,14 +1,24 @@
 import React, { ChangeEvent, useRef, useState } from "react";
+import { colors, categories } from "../../models/Products";
 import FileUtils from "../../utils/FileUtils";
 const UploadProductPage: React.FC = () => {
   const [images, setImages] = useState<string[]>([]);
+  const [productColors, setProductsColors] = useState<string[]>([]);
   const handleFileChanges = async (event: ChangeEvent<HTMLInputElement>) => {
     function handleCallback(images: string[]) {
       setImages(images);
     }
     FileUtils.getLoadedImages(event, handleCallback);
   };
-
+  const handleUpdatingColors = (color: string) => {
+    setProductsColors((prevColors) => {
+      if (!prevColors.includes(color)) {
+        return [...prevColors, color];
+      } else {
+        return prevColors;
+      }
+    });
+  };
   return (
     <>
       <div className=" max-w-screen-xl mx-auto">
@@ -17,7 +27,7 @@ const UploadProductPage: React.FC = () => {
             Upload Your Product
           </h1>
         </div>
-        <div className="grid md:grid-cols-2 mx-10 gap-5">
+        <div className="grid md:grid-cols-2 grid-cols-1 mx-10 gap-5">
           {/* left column */}
           <div className="flex flex-row justify-center items-center">
             <div>
@@ -68,18 +78,50 @@ const UploadProductPage: React.FC = () => {
                 className="mb-6  h-10 text-center w-[100%] px-2 border-b-2  focus:outline-none focus:border-b-2 focus:border-b-primary-color"
                 placeholder="Enter Product Price"
               />
-              {/* <-------------------- Price ------------------------> */}
+              {/* <-------------------- Cateogry ------------------------> */}
               <p className=" text-xl font-['Quicksand']  "> Cateogry</p>
-              <input
-                className="mb-6  h-10 text-center w-[100%] px-2 border-b-2  focus:outline-none focus:border-b-2 focus:border-b-primary-color"
-                placeholder="Enter Product Cateogry"
-              />
-              {/* <-------------------- Varients ------------------------> */}
+              <div
+                className="md:grid sm:grid md:grid-cols-4 sm:grid-cols-3 flex flex-row overflow-x-auto   mb-5 px-2 pb-2 my-5"
+                style={{ whiteSpace: "nowrap" }}
+              >
+                {categories.map((category, index) => {
+                  return (
+                    <div key={category + index}>
+                      <p className="border-2  rounded-md p-2 mr-2 mb-1 cursor-pointer ">
+                        {category}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* <-------------------- Varients color ------------------------> */}
               <p className=" text-xl font-['Quicksand']  "> Colors</p>
-              <input
-                className="mb-6  h-10 text-center w-[100%] px-2 border-b-2  focus:outline-none focus:border-b-2 focus:border-b-primary-color"
-                placeholder="red, blue, green..."
-              />
+              <div className="p-4 md:grid sm:grid md:grid-cols-9 sm:grid-cols-7 flex flex-row overflow-x-auto bg-gray-200 rounded-sm">
+                {colors.map((color, index) => {
+                  return (
+                    <div key={color + index} className="mt-2 p-1 ">
+                      <div
+                        onClick={() => {
+                          handleUpdatingColors(color);
+                        }}
+                        style={{ backgroundColor: color }}
+                        className="h-[30px] w-[30px] rounded-full cursor-pointer"
+                      ></div>
+                    </div>
+                  );
+                })}
+              </div>
+              <p className="my-5  md:grid sm:grid md:grid-cols-4 sm:grid-cols-3 flex flex-row overflow-x-auto gap-2 text-center">
+                {productColors.map((color) => {
+                  return (
+                    <span className="border-2 mb-2 py-2 px-4 rounded-md mr-2">
+                      {color}
+                    </span>
+                  );
+                })}
+              </p>
+
               {/* <-------------------- description ------------------------> */}
               <p className=" text-xl font-['Quicksand'] mb-5  "> Description</p>
               <textarea

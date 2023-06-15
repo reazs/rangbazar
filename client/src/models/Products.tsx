@@ -284,5 +284,39 @@ const products: Products = [
     ],
   },
 ];
-
+export const colors = [
+  "black",
+  "white",
+  "gray",
+  "navy",
+  "red",
+  "blue",
+  "green",
+  "brown",
+  "beige",
+  "pink",
+  "purple",
+  "yellow",
+  "orange",
+  "olive",
+  "teal",
+];
+export const categories = [
+  "Tops",
+  "Dresses",
+  "Bottoms",
+  "Outerwear",
+  "Activewear",
+  "Swimwear",
+  "Intimates",
+  "Sleepwear",
+  "Loungewear",
+  "Jumpsuits",
+  "Suits",
+  "Ethnic Wear",
+  "Maternity",
+  "Plus Size",
+  "Accessories",
+  "Shoes",
+];
 export default products;
