@@ -2,9 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const User = require("../models/userModel.js");
 const cors = require("cors");
-
 const jwt = require("jsonwebtoken");
-const { error } = require("console");
 const blacklist = [];
 require("dotenv").config();
 express(cors());
@@ -111,6 +109,8 @@ router.post("/logout", async (req, res) => {
     return res.json({ error: error });
   }
 });
+
+
 module.exports = router;
 
 // http://localhost:3000/protected?Authorization=Bearer

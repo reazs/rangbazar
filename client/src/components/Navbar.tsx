@@ -20,6 +20,7 @@ import UserHomePage from "../pages/UserPage/UserHomePage";
 import Utils from "../utils/Utils";
 import Error404Page from "../pages/ErrorPage/Error404Page";
 import BASE_URL from "../config/BaseURL";
+import UploadProductPage from "../pages/UploadProductPage/UploadProductPage";
 export default function NavBarEx() {
   const [openNav, setOpenNav] = React.useState(false);
   const [isUser, setIsUser] = useState<boolean>();
@@ -259,6 +260,7 @@ export default function NavBarEx() {
         <Route path="/user" element={<UserHomePage />} />
         <Route path="/error-404" element={<Error404Page />} />
         <Route path="/user" element={<UserHomePage />} />
+        <Route path="/upload-product" element={<UploadProductPage />} />
       </Routes>
     </>
   );
