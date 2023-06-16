@@ -1,4 +1,13 @@
 const mongoose = require("mongoose");
+const colorSchema = mongoose.Schema({
+  name: String,
+  color: String,
+});
+const imageSchema = mongoose.Schema({
+  path: String,
+  contentType: String,
+  name: String
+})
 const productSchema = mongoose.Schema({
   name: {
     type: String,
@@ -8,17 +17,26 @@ const productSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  cateogry: {
-    type: String,
+  productCateogry: [],
+  genderCateogry: [],
+  colors: [colorSchema],
+  stocks: {
+    type: Number,
     required: true,
   },
   description: {
     type: String,
     required: true,
   },
-  image: {
-    type: String,
-  },
+  // images: [
+  //   {
+  //     data: Buffer,
+  //     contentType: String,
+  //   },
+  // ],
+  images: [
+    imageSchema
+  ],
   reviews: [
     {
       title: {
@@ -33,6 +51,15 @@ const productSchema = mongoose.Schema({
         type: Number,
         required: true,
       },
+      // images: [
+      //   {
+      //     data: Buffer,
+      //     contentType: String,
+      //   },
+      // ],
+      images: [
+        imageSchema
+      ],
       createdAt: {
         type: Date,
         default: Date.now,
