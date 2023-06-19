@@ -1,11 +1,12 @@
 import ProductSizeBtn from "./ProductSizeBtn";
 import { Product } from "../../../models/Products";
+import { ClothingProductInterF } from "../../../Interface/Product";
 const ProductSizesContainer = ({
   product,
   handleSelect,
   selectedSize,
 }: {
-  product: Product | undefined;
+  product: ClothingProductInterF | undefined;
   handleSelect: (size: string) => void;
   selectedSize: string;
 }) => {

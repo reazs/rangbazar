@@ -6,8 +6,32 @@ const colorSchema = mongoose.Schema({
 const imageSchema = mongoose.Schema({
   path: String,
   contentType: String,
-  name: String
-})
+  name: String,
+});
+const reviewSchema = mongoose.Schema({
+  userID: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  comment: {
+    type: String,
+    required: true,
+  },
+  rating: {
+    type: Number,
+    required: true,
+  },
+  images: [imageSchema],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 const productSchema = mongoose.Schema({
   name: {
     type: String,
@@ -17,8 +41,8 @@ const productSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  productCateogry: [],
-  genderCateogry: [],
+  productCategory: [],
+  genderCategory: [],
   colors: [colorSchema],
   stocks: {
     type: Number,
@@ -28,44 +52,11 @@ const productSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  // images: [
-  //   {
-  //     data: Buffer,
-  //     contentType: String,
-  //   },
-  // ],
-  images: [
-    imageSchema
-  ],
-  reviews: [
-    {
-      title: {
-        type: String,
-        required: true,
-      },
-      description: {
-        type: String,
-        required: true,
-      },
-      rating: {
-        type: Number,
-        required: true,
-      },
-      // images: [
-      //   {
-      //     data: Buffer,
-      //     contentType: String,
-      //   },
-      // ],
-      images: [
-        imageSchema
-      ],
-      createdAt: {
-        type: Date,
-        default: Date.now,
-      },
-    },
-  ],
+  sizes: [],
+  images: [imageSchema],
+  reviews: [reviewSchema],
 });
+productSchema.index({ userId: 1 }, { unique: true });
 const Product = mongoose.model("Product", productSchema);
+
 module.exports = Product;

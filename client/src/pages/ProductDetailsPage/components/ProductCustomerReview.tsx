@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Product } from "../../../models/Products";
 import ProudctReviewForm from "./ProductReviewForm";
-import { Star } from "react-ionicons";
 import Utils from "../../../utils/Utils";
+import { ClothingProductInterF } from "../../../Interface/Product";
 interface ReviewStarsInfo {
   star: any;
   percentage: string | number;
@@ -11,7 +11,7 @@ interface ReviewStarsInfo {
 const ProductCustomerReview = ({
   product,
 }: {
-  product: Product | undefined;
+  product: ClothingProductInterF | undefined;
 }) => {
   const [isVisiable, setIsVisiable] = useState(false);
   const productReviewStars: ReviewStarsInfo[] = [
@@ -115,6 +115,7 @@ const ProductCustomerReview = ({
           </button>
         </div>
         <ProudctReviewForm
+          productID={product?._id as string}
           handleClose={handleClose}
           handleFormOnSubmit={handleReviewFormOnSubmit}
           isVisaible={isVisiable}

@@ -7,26 +7,36 @@ const fs = require("fs");
 const { error } = require("console");
 router = express.Router();
 
-// Route for saving a new product
+// ---------------------------------------- creating product ----------------------------------------------------------->
 router.post("/products", async (req, res) => {
   try {
     const {
       name,
       price,
-      productCateogry,
+      productCategory,
       stocks,
       colors,
       genderCategory,
       description,
+      sizes,
     } = req.body;
+    const genders = [];
+    genderCategory.forEach((gender) => {
+      genders.push(gender);
+    });
+    const newColors = colors.map((color) => color);
+    const newGenderCateg = genderCategory.map((categ) => categ);
+    const newProdCateg = productCategory.map((categ) => categ);
+    const newSizes = sizes.map((size) => size);
     const product = new Product({
       name: name,
       price: price,
-      productCateogry: productCateogry,
-      genderCategory: genderCategory,
+      productCategory: newProdCateg,
+      genderCategory: newGenderCateg,
       description: description,
-      colors: colors,
+      colors: newColors,
       stocks: stocks,
+      sizes: newSizes,
     });
     product.save();
     res.status(201).json(product);
@@ -35,7 +45,8 @@ router.post("/products", async (req, res) => {
     res.status(500).json({ error: "Failed to save product" });
   }
 });
-// editing product
+
+// ---------------------------------------- editing product by ID ----------------------------------------------------------->
 router.post("/products/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -57,6 +68,7 @@ router.post("/products/:id", async (req, res) => {
     res.status(500).json({ error: "Failed to update product" });
   }
 });
+// ---------------------------------------- Delete product by ID ----------------------------------------------------------->
 // deleting product
 router.delete("/products", async (req, res) => {
   try {
@@ -102,29 +114,6 @@ const uploads = multer({
   storage: Storage,
 });
 
-// router.post("/upload-images", uploads.single("image"), async (req, res) => {
-//   try {
-//     const newImage = new Image({
-//       name: "" + req.file.originalname,
-//       image: {
-//         data: fs.readFileSync("uploads/" + req.file.filename),
-//         contentType: "image/png",
-//       },
-//     });
-//     newImage.save().then(() => {
-//       return res.json({
-//         success: true,
-//         message: "Image uploaded successfully",
-//       });
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     return res
-//       .status(500)
-//       .json({ message: "Error uploading images", error: error });
-//   }
-// });
-
 router.post("/upload-images", uploads.array("imagesTest"), (req, res) => {
   try {
     const files = req.files;
@@ -156,6 +145,7 @@ router.post("/upload-images", uploads.array("imagesTest"), (req, res) => {
     return res.json({ error: error, message: "500 sever error" });
   }
 });
+// ---------------------------------------- post upload product images ----------------------------------------------------------->
 
 router.post(
   "/upload-products-images",
@@ -174,7 +164,7 @@ router.post(
           const modifiedPath = filePath.replace(/\\/g, "/");
           review_images.push({
             name: file.filename,
-            path: modifiedPath,
+            path: "http://localhost:3000/" + modifiedPath,
             contentType: "Image/png",
           });
         }
@@ -193,26 +183,87 @@ router.post(
   }
 );
 router.use("/uploads", express.static("uploads"));
+// ---------------------------------------- get all products ----------------------------------------------------------->
 router.get("/products", async (req, res) => {
   try {
     const products = await Product.find();
     const responseData = products.map((product) => {
-      const images = product.images.map((image) => image.path);
+      const { images, ...modefiyProduct } = product;
+
+      const newImages = images.map((image) => image.path);
+      console.log();
       return {
-        _id: product._id,
-        name: product.name,
-        price: product.price,
-        stocks: product.stocks,
-        productCateogry: product.productCateogry,
-        genderCategory: product.genderCategory,
-        colors: product.colors,
-        images: images,
+        ...modefiyProduct._doc,
+        images: newImages,
       };
     });
-    res.status(200).json(responseData);
+    res.status(200).json(responseData.reverse());
   } catch (error) {
     return res.status(500).json({ message: "sever error", error: error });
   }
 });
 
+// ---------------------------------------- get  product by id ----------------------------------------------------------->
+
+router.get("/product", async (req, res) => {
+  try {
+    const id = req.query.id;
+    const prodcut = await Product.findById(id);
+    const { images, ...modefiyProduct } = prodcut;
+    const newImages = images.map((image) => image.path);
+    if (prodcut) {
+      return res
+        .status(200)
+        .json({ ...modefiyProduct._doc, images: newImages });
+    } else {
+      return res.json({ message: "product does not exist" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "server error", error: error });
+  }
+});
+
+router.post(
+  "/product/add-review",
+  uploads.array("reviewImages"),
+  async (req, res) => {
+    try {
+      const files = req.files;
+      const productID = req.body.productID;
+      const userID = req.body.userID;
+      const title = req.body.title;
+      const rating = req.body.rating;
+      const comment = req.body.comment;
+      const prodcut = await Product.findById(productID).exec();
+      const newImages = [];
+      if (files) {
+        files.forEach((file) => {
+          const filePath = file.path;
+          const modifiedPath = filePath.replace(/\\/g, "/");
+          const newImage = {
+            name: file.filename,
+            path: "http://localhost:3000/" + modifiedPath,
+            contentType: "Image/png",
+          };
+          newImages.push(newImage);
+        });
+        const newReview = {
+          userID: userID,
+          title: title,
+          comment: comment,
+          rating: parseInt(rating),
+          images: newImages,
+        };
+        prodcut.reviews.push(newReview);
+        prodcut.save();
+
+        return res.status(200).json(prodcut);
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: "server error", error: error });
+    }
+  }
+);
 module.exports = router;

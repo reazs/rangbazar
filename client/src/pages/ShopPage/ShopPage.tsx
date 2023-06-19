@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import { Routes, Link } from "react-router-dom";
 import ProductCard from "../../components/ProductCard";
-import products from "../../models/Products";
 import { SlideTransition } from "../../components/SlideTransition";
 import "./ShopPage.css";
 import { Reveal } from "../../components/Reveal";
@@ -9,22 +8,67 @@ import Footer from "../../components/Footer";
 import SlideShow from "./components/SlideShow";
 import Utils from "../../utils/Utils";
 import ColorLoading from "../../components/ColorLoading";
+import BASE_URL from "../../config/BaseURL";
+import {
+  ClothingProductInterF,
+  colorInterF,
+  reviewInterF,
+} from "../../Interface/Product";
+export const ShopContext = createContext<ClothingProductInterF[] | string>(
+  "some"
+);
 
 const ShopPage: React.FC = () => {
+  const [clothProducts, setClothProducts] = useState<ClothingProductInterF[]>(
+    []
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(8);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPage = Math.ceil(products.length / itemsPerPage);
+  const currentItems = clothProducts.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPage = Math.ceil(clothProducts.length / itemsPerPage);
 
   const [isLoadingShow, setIsLoadingShow] = useState(true);
-
+  const handleLoadProducts = async () => {
+    const url = BASE_URL + "/products";
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.status == 200) {
+        const products: ClothingProductInterF[] = await response.json();
+        const updatedProducts: ClothingProductInterF[] = [];
+        products.forEach((product: ClothingProductInterF) => {
+          const newProduct: ClothingProductInterF = {
+            ...product,
+          };
+          console.log("Product ID---->", newProduct._id);
+          const productExist = clothProducts.findIndex((prod) => {
+            prod._id === newProduct._id;
+          });
+          if (productExist !== -1) {
+            updatedProducts.push(...clothProducts);
+          } else {
+            updatedProducts.push(...clothProducts, newProduct);
+          }
+        });
+        setClothProducts(updatedProducts);
+      }
+    } catch (error) {
+      console.log("could not fetch the URL");
+    }
+  };
   useEffect(() => {
+    handleLoadProducts();
+
     Utils.delay(800).then(() => {
       setIsLoadingShow(false);
     });
-  });
+  }, []);
   return isLoadingShow ? (
     <>
       <ColorLoading />
@@ -46,13 +90,13 @@ const ShopPage: React.FC = () => {
                 repeat="yes"
                 delay={0.2 + (index % 4) / 10}
               >
-                <Link
+                {/* <Link
                   to={
-                    "/shop/product-details/" + product.title + "/" + product.id
+                    "/shop/product-details/" + product.name + "/" + product?._id
                   }
-                >
-                  <ProductCard key={index} {...product} />
-                </Link>
+                > */}
+                <ProductCard key={index} {...product} />
+                {/* </Link> */}
               </SlideTransition>
             </>
           ))}
@@ -81,6 +125,7 @@ const ShopPage: React.FC = () => {
           ></i>
         </div>
       </div>
+
       <Footer />
       <Routes></Routes>
     </>

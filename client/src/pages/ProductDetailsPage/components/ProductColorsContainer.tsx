@@ -1,3 +1,4 @@
+import { ClothingProductInterF } from "../../../Interface/Product";
 import { Product } from "../../../models/Products";
 import ProductColorBtn from "./ProductColorBtn";
 const ProductColorsContainer = ({
@@ -5,7 +6,7 @@ const ProductColorsContainer = ({
   handleColorSelect,
   activeColor,
 }: {
-  product: Product|undefined;
+  product: ClothingProductInterF | undefined;
   handleColorSelect: (color: string) => void;
   activeColor: string;
 }) => {
@@ -18,8 +19,8 @@ const ProductColorsContainer = ({
               <ProductColorBtn
                 key={index}
                 onSelect={handleColorSelect}
-                color={color}
-                isActive={color === activeColor}
+                color={color.color}
+                isActive={color.color === activeColor}
               />
             </>
           );

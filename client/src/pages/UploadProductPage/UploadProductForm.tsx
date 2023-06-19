@@ -2,9 +2,11 @@ import {
   productCategories,
   colors,
   ageCategories,
+  sizeCategories,
 } from "../../models/Products";
 import { useState, ChangeEvent } from "react";
 import { SelectedColorInterf } from "./UploadProductPage";
+
 interface uploadProductInter {
   name: string | undefined;
   price: number | undefined;
@@ -14,15 +16,13 @@ interface uploadProductInter {
 interface UploadProductFormInterf {
   handleUpdatingColors: (color: string, name: string) => void;
   productColors: SelectedColorInterf[];
-  handleSelectedProductCategory: (id: string) => void;
-  handleSelectedAgeCateogry: (id: string) => void;
+  handleSelectedCategory: (id: string, categoryName: "product" | "size" | "age") => void;
   handleUploadProduct: (data: uploadProductInter) => void;
 }
 const UploadProductForm = ({
   handleUpdatingColors,
   productColors,
-  handleSelectedAgeCateogry,
-  handleSelectedProductCategory: handleSelectedProductCategory,
+  handleSelectedCategory,
   handleUploadProduct,
 }: UploadProductFormInterf) => {
   const [title, setTitle] = useState<string>();
@@ -77,7 +77,7 @@ const UploadProductForm = ({
                   className="border-2  text-center  rounded-md p-2 mr-2 mb-1 cursor-pointer "
                   key={category + index}
                   onClick={() => {
-                    handleSelectedProductCategory(category);
+                    handleSelectedCategory(category, "product");
                   }}
                   id={category}
                 >
@@ -86,6 +86,28 @@ const UploadProductForm = ({
               );
             })}
           </div>
+          {/* <-------------------- Sizes ------------------------> */}
+          <p className=" text-xl font-['Quicksand']  "> Size Cateogry</p>
+          <div
+            className="grid  grid-cols-4   mb-5 px-2 pb-2 my-5"
+            style={{ whiteSpace: "nowrap" }}
+          >
+            {sizeCategories.map((sizeCategory, index) => {
+              return (
+                <div
+                  className="border-2  text-center  rounded-md p-2 mr-2 mb-1 cursor-pointer "
+                  key={sizeCategory + index}
+                  onClick={() => {
+                    handleSelectedCategory(sizeCategory, "size");
+                  }}
+                  id={sizeCategory}
+                >
+                  <p className="text-sm">{sizeCategory}</p>
+                </div>
+              );
+            })}
+          </div>
+
           {/* <-------------------- Age Cateogry ------------------------> */}
           <p className=" text-xl font-['Quicksand']  "> Age Cateogry</p>
           <div
@@ -98,7 +120,7 @@ const UploadProductForm = ({
                   className="border-2  text-center  rounded-md p-2 mr-2 mb-1 cursor-pointer "
                   key={ageCategory + index}
                   onClick={() => {
-                    handleSelectedAgeCateogry(ageCategory);
+                    handleSelectedCategory(ageCategory, "age");
                   }}
                   id={ageCategory}
                 >
@@ -150,6 +172,7 @@ const UploadProductForm = ({
           ></textarea>
           <div
             onClick={() => {
+             
               if (price && title && description && quantity) {
                 const newData: uploadProductInter = {
                   price: price,

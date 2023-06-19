@@ -6,6 +6,7 @@ import BASE_URL from "../../config/BaseURL";
 
 import { error } from "console";
 import { stringify } from "querystring";
+import { colors } from "../../models/Products";
 export interface SelectedColorInterf {
   name: string;
   color: string;
@@ -17,50 +18,82 @@ const UploadProductPage: React.FC = () => {
   const [selectedProductCategories, setSelectedCategories] = useState<string[]>(
     []
   );
+  const [selectedSizeCategories, setSelectedSizeCategories] = useState<
+    string[]
+  >([]);
   const [selectedAgeCategories, setSelectedAgeCategories] = useState<string[]>(
     []
   );
-  const handleSelectedProductCategory = (id: string) => {
-    const categoryDiv = document.getElementById(id) as HTMLDivElement;
-    if (categoryDiv) {
-      if (categoryDiv.classList.contains("border-primary-color")) {
-        categoryDiv.classList.remove("border-primary-color");
-        setSelectedCategories((prevCategories: string[]) => {
-          prevCategories = prevCategories.filter((categ) => {
-            if (categ != id) {
-              return categ;
-            }
-          });
 
-          return [...prevCategories];
-        });
-      } else {
-        categoryDiv.classList.add("border-primary-color");
-        setSelectedCategories((prevCateg: string[]) => {
-          return [...prevCateg, id];
-        });
-      }
+  const addSelectedCategory = (
+    id: string,
+    categoryName: "product" | "age" | "size",
+    categoryDiv: HTMLDivElement
+  ) => {
+    categoryDiv.classList.add("border-primary-color");
+
+    if (categoryName == "age") {
+      setSelectedAgeCategories((prevAgeCateg: string[]) => {
+        return [...prevAgeCateg, id];
+      });
+    } else if (categoryName == "product") {
+      setSelectedCategories((prevAgeCateg: string[]) => {
+        return [...prevAgeCateg, id];
+      });
+    } else if (categoryName == "size") {
+      setSelectedSizeCategories((prevAgeCateg: string[]) => {
+        return [...prevAgeCateg, id];
+      });
     }
   };
-  const handdleAgeCategoryClick = (id: string) => {
+  const removeSelectedCategory = (
+    id: string,
+    categoryName: "product" | "age" | "size"
+  ) => {
+    if (categoryName == "age") {
+      setSelectedAgeCategories((prevAgeCategories: string[]) => {
+        prevAgeCategories = prevAgeCategories.filter((categ) => {
+          if (categ != id) {
+            return categ;
+          }
+        });
+
+        return [...prevAgeCategories];
+      });
+    } else if (categoryName == "product") {
+      setSelectedCategories((prevCategories: string[]) => {
+        prevCategories = prevCategories.filter((categ) => {
+          if (categ != id) {
+            return categ;
+          }
+        });
+
+        return [...prevCategories];
+      });
+    } else if (categoryName == "size") {
+      setSelectedSizeCategories((prevCategories: string[]) => {
+        prevCategories = prevCategories.filter((categ) => {
+          if (categ != id) {
+            return categ;
+          }
+        });
+
+        return [...prevCategories];
+      });
+    }
+  };
+  const handleSelectedCategory = (
+    id: string,
+    categoryName: "product" | "size" | "age"
+  ) => {
     const categoryDiv = document.getElementById(id) as HTMLDivElement;
     if (categoryDiv) {
       if (categoryDiv.classList.contains("border-primary-color")) {
         categoryDiv.classList.remove("border-primary-color");
-        setSelectedAgeCategories((prevAgeCategories: string[]) => {
-          prevAgeCategories = prevAgeCategories.filter((categ) => {
-            if (categ != id) {
-              return categ;
-            }
-          });
-
-          return [...prevAgeCategories];
-        });
+        removeSelectedCategory(id, categoryName);
       } else {
         categoryDiv.classList.add("border-primary-color");
-        setSelectedAgeCategories((prevAgeCateg: string[]) => {
-          return [...prevAgeCateg, id];
-        });
+        addSelectedCategory(id, categoryName, categoryDiv);
       }
     }
   };
@@ -105,17 +138,13 @@ const UploadProductPage: React.FC = () => {
     stocks: number | undefined;
     description: string | undefined;
   }) => {
-    console.log("selected age categ", selectedAgeCategories);
-    console.log("selected prod categ", selectedProductCategories);
-    console.log("images", selectedImages);
-    console.log(data);
-
     try {
       const newData = {
         ...data,
         colors: productColors,
         genderCategory: selectedAgeCategories,
         productCategory: selectedProductCategories,
+        sizes: selectedSizeCategories,
       };
       const response = await fetch(BASE_URL + "/products", {
         method: "POST",
@@ -176,9 +205,8 @@ const UploadProductPage: React.FC = () => {
           <UploadProductForm
             handleUpdatingColors={handleUpdatingColors}
             productColors={productColors}
-            handleSelectedAgeCateogry={handdleAgeCategoryClick}
-            handleSelectedProductCategory={handleSelectedProductCategory}
             handleUploadProduct={handleUploadProduct}
+            handleSelectedCategory={handleSelectedCategory}
           />
         </div>
         {/* extra bottom space */}

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
-import products, { Product } from "../../models/Products";
+// import products, { Product } from "../../models/Products";
 import Footer from "../../components/Footer";
 import { Reveal } from "../../components/Reveal";
 import ProductImageView from "./components/ProductImageView";
@@ -9,17 +9,14 @@ import ProductSizesContainer from "./components/ProductSizesContainer";
 import ProductColorsContainer from "./components/ProductColorsContainer";
 import ProductInfoContainer from "./components/ProductInfoContainer";
 import ProductAddItemContainer from "./components/ProductAddItemContainer";
-import loadingLottieData from "../../../public/colors-loading.json";
-import PresentAnimation from "../../components/PresentAnimation";
-import Lottie from "lottie-react";
 import Utils from "../../utils/Utils";
 import ColorLoading from "../../components/ColorLoading";
-import RiveAddAnimatedBtn from "../../components/RiveAddAnimatedBtn";
+import { ClothingProductInterF } from "../../Interface/Product";
+import BASE_URL from "../../config/BaseURL";
 const ProductDetailsPage: React.FC = () => {
   const { productId } = useParams();
-  const product: Product | undefined = products.find((product) => {
-    return Number(productId) === product.id && product;
-  });
+  const [product, setProduct] = useState<ClothingProductInterF>();
+
   const [selectedSize, setSelectedSize] = useState("");
   const [activeColor, setActiveColor] = useState("");
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
@@ -37,9 +34,26 @@ const ProductDetailsPage: React.FC = () => {
   function handleShowPresent() {
     Utils.delay(500).then(() => setPresentShow(false));
   }
+
+  async function handleLoadProduct() {
+    try {
+      const url = BASE_URL + "/product?id=" + productId;
+      const response = await fetch(url, {
+        method: "GET",
+      });
+      const product_: ClothingProductInterF = await response.json();
+      if (response.status == 200) {
+        setProduct(product_);
+        console.log(product?._id);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
   useEffect(() => {
     handleShowPresent();
-  }, [handleShowPresent]);
+    handleLoadProduct();
+  }, []);
 
   return (
     <>
@@ -47,56 +61,64 @@ const ProductDetailsPage: React.FC = () => {
         <ColorLoading />
       ) : (
         <>
-          <div className="grid lg:grid-cols-2 md:grid-cols-2 max-w-screen-xl  mx-auto mt-[50px] gap-5 p-10">
-            {/* left container */}
-            <div className="">
-              <ProductImageView src={product?.images[currentImgIndex] + ""} />
-              {/* mini img preview */}
-              <ProductMiniImgPreview
-                product={product}
-                currentImgIndex={currentImgIndex}
-                handleCurrentImgIndex={handleCurrentImgIndex}
-              />
-            </div>
-            {/* right container */}
-            <div>
-              <Reveal>
-                <p className="large-thin-heading">{product?.title}</p>
-              </Reveal>
+          {product && (
+            <>
+              <div className="grid lg:grid-cols-2 md:grid-cols-2 max-w-screen-xl  mx-auto mt-[50px] gap-5 p-10">
+                {/* left container */}
+                <div className="">
+                  <ProductImageView
+                    src={product.images[currentImgIndex] + ""}
+                  />
+                  {/* mini img preview */}
+                  <ProductMiniImgPreview
+                    product={product}
+                    currentImgIndex={currentImgIndex}
+                    handleCurrentImgIndex={handleCurrentImgIndex}
+                  />
+                </div>
+                {/* right container */}
+                <div>
+                  <Reveal>
+                    <p className="large-thin-heading">{product?.name}</p>
+                  </Reveal>
 
-              <div className="text-[28px ] font-medium mb-4">
-                <span className="">€{product?.price}</span>
+                  <div className="text-[28px ] font-medium mb-4">
+                    <span className="">€{product?.price}</span>
+                  </div>
+                  <div className="mb-4">
+                    <span className="text-[10pt] ">
+                      White Ceramic Mug, 325ml.
+                    </span>
+                  </div>
+                  {/* size section */}
+
+                  <ProductSizesContainer
+                    product={product}
+                    handleSelect={handleSelect}
+                    selectedSize={selectedSize}
+                  />
+
+                  {/* color section */}
+                  <ProductColorsContainer
+                    product={product}
+                    handleColorSelect={handleColorSelect}
+                    activeColor={activeColor}
+                  />
+                  {/* Add card section*/}
+                  <ProductAddItemContainer />
+                  {/* mini description */}
+
+                  <div className="uppercase text-[14px] leading-8 mt-4 mb-2">
+                    <p className="">Free worldwide shipping</p>
+                    <p className="">100% best quality</p>
+                    <p>29% discount for pay via paypal</p>
+                  </div>
+                </div>
               </div>
-              <div className="mb-4">
-                <span className="text-[10pt] ">White Ceramic Mug, 325ml.</span>
-              </div>
-              {/* size section */}
-
-              <ProductSizesContainer
-                product={product}
-                handleSelect={handleSelect}
-                selectedSize={selectedSize}
-              />
-
-              {/* color section */}
-              <ProductColorsContainer
-                product={product}
-                handleColorSelect={handleColorSelect}
-                activeColor={activeColor}
-              />
-              {/* Add card section*/}
-              <ProductAddItemContainer />
-              {/* mini description */}
-
-              <div className="uppercase text-[14px] leading-8 mt-4 mb-2">
-                <p className="">Free worldwide shipping</p>
-                <p className="">100% best quality</p>
-                <p>29% discount for pay via paypal</p>
-              </div>
-            </div>
-          </div>
-          {/* product description and details container*/}
-          <ProductInfoContainer product={product} />
+              {/* product description and details container*/}
+              <ProductInfoContainer product={product} />
+            </>
+          )}
 
           <Footer />
         </>

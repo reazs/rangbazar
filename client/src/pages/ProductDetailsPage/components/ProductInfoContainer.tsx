@@ -3,11 +3,12 @@ import { Product } from "../../../models/Products";
 import Navbrand from "../../../components/navbrand";
 import ProdcutRelatedSlider from "./ProductRelatedSlider";
 import ProductCustomerReview from "./ProductCustomerReview";
+import { ClothingProductInterF } from "../../../Interface/Product";
 
 const ProductInfoContainer = ({
   product,
 }: {
-  product: Product | undefined;
+  product: ClothingProductInterF | undefined;
 }) => {
   return (
     <div className="mt-[50px] max-w-screen-xl mx-auto px-[15px] ">
@@ -16,7 +17,6 @@ const ProductInfoContainer = ({
           <h4 className="medium-thin-heading ">Description</h4>
         </Reveal>
       </div>
-
       <div className="text-[16px] leading-8 large-first-letter mb-[50px]">
         <p>{product?.description}</p>
       </div>
@@ -33,7 +33,7 @@ const ProductInfoContainer = ({
           <Navbrand />
         </div>
         <div className="mb-15 py-[15px] mr-[35px]">
-          <p className="">Reference Demo_{product?.id}</p>
+          <p className="">Reference Demo_{product?._id}</p>
           <p className="text-[16px]  leading-9">
             In Stock Items {product?.images.length}
           </p>

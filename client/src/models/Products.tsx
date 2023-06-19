@@ -306,6 +306,7 @@ export const colors = [
   { name: "Brown", value: "#A52A2A" },
   { name: "Beige", value: "#F5F5DC" },
 ];
+export const sizeCategories: string[] = ["XS", "S", "M", "L", "XL", "XXL"];
 export const ageCategories: string[] = ["Man", "Woman", "Boy", "Girl"];
 export const productCategories = [
   "Tops",
@@ -325,4 +326,5 @@ export const productCategories = [
   "Accessories",
   "Shoes",
 ];
+
 export default products;
