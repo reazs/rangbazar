@@ -23,4 +23,27 @@ export default class Utils {
       return data;
     }
   };
+
+  static checkReviewSubmitted = async ({
+    productID,
+    userID,
+  }: {
+    productID: string;
+    userID: string;
+  }) => {
+    const url = BASE_URL + "/product/review-exist";
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productID: productID,
+        userID: userID,
+      }),
+    });
+    const responseData = await response.json();
+    console.log(responseData);
+  
+  };
 }

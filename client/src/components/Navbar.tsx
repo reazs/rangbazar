@@ -21,6 +21,7 @@ import Utils from "../utils/Utils";
 import Error404Page from "../pages/ErrorPage/Error404Page";
 import BASE_URL from "../config/BaseURL";
 import UploadProductPage from "../pages/UploadProductPage/UploadProductPage";
+import CartPage from "../pages/CartPage/CartPage";
 export default function NavBarEx() {
   const [openNav, setOpenNav] = React.useState(false);
   const [isUser, setIsUser] = useState<boolean>();
@@ -110,6 +111,23 @@ export default function NavBarEx() {
           className="flex items-center"
         >
           Shop
+        </Link>
+      </Typography>
+
+      <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className="p-1 font-normal"
+      >
+        <Link
+          onClick={() => {
+            window.scrollTo(0, 0);
+          }}
+          to="/user/cart"
+          className="flex items-center"
+        >
+          Cart
         </Link>
       </Typography>
 
@@ -261,6 +279,7 @@ export default function NavBarEx() {
         <Route path="/error-404" element={<Error404Page />} />
         <Route path="/user" element={<UserHomePage />} />
         <Route path="/upload-product" element={<UploadProductPage />} />
+        <Route path="/user/cart" element={<CartPage />} />
       </Routes>
     </>
   );

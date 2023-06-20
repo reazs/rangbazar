@@ -4,12 +4,25 @@ import Navbrand from "../../../components/navbrand";
 import ProdcutRelatedSlider from "./ProductRelatedSlider";
 import ProductCustomerReview from "./ProductCustomerReview";
 import { ClothingProductInterF } from "../../../Interface/Product";
+import { useEffect, useState } from "react";
+import Utils from "../../../utils/Utils";
+import { UserInterF } from "../../../Interface/UserInterface";
 
 const ProductInfoContainer = ({
   product,
 }: {
   product: ClothingProductInterF | undefined;
 }) => {
+  const [user, setUser] = useState<UserInterF>();
+
+  useEffect(() => {
+    Utils.loadUser()
+      .then((data: UserInterF) => {
+        setUser(data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
   return (
     <div className="mt-[50px] max-w-screen-xl mx-auto px-[15px] ">
       <div className="py-[15px] mb-[45px]">
@@ -40,7 +53,7 @@ const ProductInfoContainer = ({
         </div>
       </div>
       {/* review of product */}
-      <ProductCustomerReview product={product} />
+      <ProductCustomerReview product={product} user={user as UserInterF} />
       {/* related items container */}
       <div className="">
         <div className="flex flex-row justify-center">

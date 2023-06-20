@@ -255,10 +255,10 @@ router.post(
           rating: parseInt(rating),
           images: newImages,
         };
-        prodcut.reviews.push(newReview);
-        prodcut.save();
-
-        return res.status(200).json(prodcut);
+        if (prodcut.reviews) {
+          prodcut.reviews.push(newReview);
+          return res.status(200).json(prodcut);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -266,4 +266,34 @@ router.post(
     }
   }
 );
+
+router.post("/product/review-exist", async (req, res) => {
+  try {
+    const userID = req.body.userID;
+    const productID = req.body.productID;
+    const product = await Product.findById(productID).exec();
+    if (product) {
+      if (product.reviews) {
+        const reviewExist = product.reviews.findIndex(
+          (review) => review.userID === userID
+        );
+
+        if (reviewExist != -1) {
+          return res.status(200).json({
+            message: "Already Submitted Review",
+            isSumbitReview: true,
+          });
+        } else {
+          return res.status(200).json({
+            message: "No Review found in this user",
+            isSumbitReview: false,
+          });
+        }
+      }
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "server error" });
+  }
+});
+
 module.exports = router;

@@ -1,3 +1,4 @@
+import { CartInterF } from "../Interface/CartInterface";
 import { ClothingProductInterF } from "../Interface/Product";
 import BASE_URL from "../config/BaseURL";
 
@@ -22,6 +23,17 @@ class ProductsAPIUtils {
       handleSetProduct(responseData);
     } catch (error) {
       console.error({ message: "could not fetch url", error: error });
+    }
+  };
+
+  static loadCartItems = async () => {
+    try {
+      const url = BASE_URL + "/carts";
+      const response = await fetch(url);
+      const responseData: CartInterF[] = await response.json();
+      console.log(responseData);
+    } catch (error) {
+      console.error(error);
     }
   };
 }

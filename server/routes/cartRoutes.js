@@ -1,0 +1,84 @@
+const express = require("express");
+const Cart = require("../models/cartModel");
+router = express.Router();
+
+// ------------------------- Adding Product In Cart ------------------ >
+router.post("/add-product", async (req, res) => {
+  const { productID, userID, price, quantity } = req.body;
+  try {
+    const product = {
+      productID: productID,
+      price: parseFloat(price),
+      quantity: quantity,
+    };
+    const cart = await Cart.findOne({ userID: userID });
+    //    checking if user already has cart created
+    if (cart) {
+      cart.products.push(product);
+      cart.updated = Date.now();
+      cart.save();
+      return res.status(200).json(cart);
+    } else {
+      // if cart is not created it will create one and save userID
+      const newCart = Cart({
+        userID: userID,
+      });
+      newCart.products.push(product);
+      await newCart.save();
+      return res.status(200).json(newCart);
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "server error" });
+  }
+});
+
+// ------------------------- Removing Product In Cart -------------------- >
+router.post("/remove-product", async (req, res) => {
+  const { userID, productID } = req.body;
+  try {
+    const cart = await Cart.findOne({ userID: userID });
+    if (cart) {
+      cart.products = cart.products.filter(
+        (prodcut) => prodcut.productID !== productID
+      );
+    } else {
+      return res.status(404).json({ message: "Cart not found" });
+    }
+    cart.updated = Date.now();
+    await cart.save();
+    return res.status(200).json(cart);
+  } catch (error) {
+    return res.status(500).json({ message: "server error" });
+  }
+});
+
+// ------------------------- Get all Carts -------------------- >
+router.get("/", async (req, res) => {
+  try {
+    const carts = await Cart.find();
+    if (carts) {
+      return res.status(200).json(carts);
+    } else {
+      return res.status(404).json({ message: "404 not found" });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "server error" });
+  }
+});
+
+// ---------------------- get cart by id ---------------------------->
+router.post("/cart", async (req, res) => {
+  try {
+    const { cartID } = req.body;
+    const cart = await Cart.findById(cartID);
+    if (cart) {
+      return res.status(200).json(cart);
+    } else {
+      return res.status(404).json({ message: "404 not found" });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "server error" });
+  }
+});
+
+module.exports = router;

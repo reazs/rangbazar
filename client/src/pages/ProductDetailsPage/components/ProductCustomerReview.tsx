@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Product } from "../../../models/Products";
 import ProudctReviewForm from "./ProductReviewForm";
 import Utils from "../../../utils/Utils";
 import { ClothingProductInterF } from "../../../Interface/Product";
+import { UserInterF } from "../../../Interface/UserInterface";
+import BASE_URL from "../../../config/BaseURL";
 interface ReviewStarsInfo {
   star: any;
   percentage: string | number;
@@ -10,9 +12,32 @@ interface ReviewStarsInfo {
 }
 const ProductCustomerReview = ({
   product,
+  user,
 }: {
+  user: UserInterF;
   product: ClothingProductInterF | undefined;
 }) => {
+  const [isReviewExist, setIsReviewExist] = useState<Boolean>();
+  const doSomething = async (prodcutID: string) => {
+    const userID = user?._id;
+
+    const url = BASE_URL + "/product/review-exist";
+
+    const data = { productID: prodcutID, userID: userID };
+
+    fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then((response) =>
+        response.json().then((data) => {
+          setIsReviewExist(data.isSumbitReview as Boolean);
+        })
+      )
+      .catch((error) => console.error(error));
+  };
+
   const [isVisiable, setIsVisiable] = useState(false);
   const productReviewStars: ReviewStarsInfo[] = [
     {
@@ -105,6 +130,10 @@ const ProductCustomerReview = ({
           <button
             onClick={() => {
               setIsVisiable(!isVisiable);
+              const pID = product?._id;
+              if (pID) {
+                doSomething(pID);
+              }
             }}
             className={
               "mb-6 text-xl py-3 max-w-[300px] text-center border-2 hover:bg-primary-color hover:text-white"
@@ -115,6 +144,8 @@ const ProductCustomerReview = ({
           </button>
         </div>
         <ProudctReviewForm
+          user={user as UserInterF}
+          isReviewExist={isReviewExist as Boolean}
           productID={product?._id as string}
           handleClose={handleClose}
           handleFormOnSubmit={handleReviewFormOnSubmit}
