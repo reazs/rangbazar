@@ -208,6 +208,7 @@ router.get("/products", async (req, res) => {
 router.get("/product", async (req, res) => {
   try {
     const id = req.query.id;
+    console.log(id);
     const prodcut = await Product.findById(id);
     const { images, ...modefiyProduct } = prodcut;
     const newImages = images.map((image) => image.path);

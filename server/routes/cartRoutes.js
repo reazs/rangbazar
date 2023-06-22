@@ -4,12 +4,14 @@ router = express.Router();
 
 // ------------------------- Adding Product In Cart ------------------ >
 router.post("/add-product", async (req, res) => {
-  const { productID, userID, price, quantity } = req.body;
+  const { productID, userID, price, quantity, size, color } = req.body;
   try {
     const product = {
       productID: productID,
       price: parseFloat(price),
       quantity: quantity,
+      size: size,
+      color: color,
     };
     const cart = await Cart.findOne({ userID: userID });
     //    checking if user already has cart created
@@ -52,8 +54,24 @@ router.post("/remove-product", async (req, res) => {
   }
 });
 
+// ------------------------- Get user Carts -------------------- >
+
+router.post("/user-cart", async (req, res) => {
+  try {
+    const { userID } = req.body;
+    const userCart = await Cart.findOne({ userID: userID });
+    if (userCart) {
+      return res.status(200).json(userCart);
+    } else {
+      return res.status(404).json({ message: "not found" });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "server error" });
+  }
+});
+
 // ------------------------- Get all Carts -------------------- >
-router.get("/", async (req, res) => {
+router.get("/all", async (req, res) => {
   try {
     const carts = await Cart.find();
     if (carts) {

@@ -26,12 +26,31 @@ class ProductsAPIUtils {
     }
   };
 
-  static loadCartItems = async () => {
+  static loadCartItems = async (userID: string) => {
     try {
-      const url = BASE_URL + "/carts";
+      const url = BASE_URL + "/carts/user-cart";
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userID: userID,
+        }),
+      });
+      const responseData: CartInterF = await response.json();
+      return responseData;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  static loadProduct = async (productID: string) => {
+    try {
+      const url = BASE_URL + "/product?id=" + productID;
       const response = await fetch(url);
-      const responseData: CartInterF[] = await response.json();
-      console.log(responseData);
+      const responseData: ClothingProductInterF = await response.json();
+      return responseData;
     } catch (error) {
       console.error(error);
     }
