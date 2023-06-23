@@ -8,6 +8,7 @@ export interface cartProductInterF {
   size: string;
   name: string;
   image: string;
+  stocks: string;
 }
 export interface CartInterF {
   userID: string;
@@ -16,8 +17,8 @@ export interface CartInterF {
   updated: Date;
 }
 
-export interface selectedCartItemInterF { 
-    productID: string,
-    price: number,
-    quantity: number,
+export interface selectedCartItemInterF {
+  productID: string;
+  price: number;
+  quantity: number;
 }

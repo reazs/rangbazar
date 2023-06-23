@@ -4,21 +4,27 @@ router = express.Router();
 
 // ------------------------- Adding Product In Cart ------------------ >
 router.post("/add-product", async (req, res) => {
-  const { productID, userID, price, quantity, size, color } = req.body;
+  const { productID, userID, price, quantity, size, color, stocks } = req.body;
   try {
     const product = {
       productID: productID,
       price: parseFloat(price),
-      quantity: quantity,
+      quantity: parseInt(quantity),
       size: size,
       color: color,
+      stocks: parseInt(stocks),
     };
     const cart = await Cart.findOne({ userID: userID });
     //    checking if user already has cart created
     if (cart) {
-      cart.products.push(product);
+      const updatedProducts = cart.products.filter(
+        (prod) => prod.productID !== productID
+      );
+      cart.products = updatedProducts;
+      cart.products.push(product); // Add the new product to the updated array
       cart.updated = Date.now();
-      cart.save();
+      await cart.save();
+
       return res.status(200).json(cart);
     } else {
       // if cart is not created it will create one and save userID
@@ -26,7 +32,7 @@ router.post("/add-product", async (req, res) => {
         userID: userID,
       });
       newCart.products.push(product);
-      await newCart.save();
+      newCart.save();
       return res.status(200).json(newCart);
     }
   } catch (error) {

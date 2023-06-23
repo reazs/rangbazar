@@ -1,6 +1,7 @@
-import { CartInterF } from "../Interface/CartInterface";
+import { CartInterF, cartProductInterF } from "../Interface/CartInterface";
 import { ClothingProductInterF } from "../Interface/Product";
 import BASE_URL from "../config/BaseURL";
+import { Product } from "../models/Products";
 
 class ProductsAPIUtils {
   static addReview = async ({ formData }: { formData: FormData }) => {
@@ -51,6 +52,64 @@ class ProductsAPIUtils {
       const response = await fetch(url);
       const responseData: ClothingProductInterF = await response.json();
       return responseData;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  static addProductToCart = async (
+    product: ClothingProductInterF,
+    size: string | undefined,
+    color: string | undefined,
+    quantity: number | undefined,
+    userId: string
+  ) => {
+    try {
+      const prodcutID = product._id;
+      const stocks = product.stocks;
+      const price = product.price;
+      const data = {
+        productID: prodcutID,
+        price: price,
+        stocks: stocks,
+        size: size,
+        color: color,
+        quantity: quantity,
+        userID: userId,
+      };
+      console.log(userId, "userID");
+      const url = BASE_URL + "/carts/add-product";
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (response.status === 200) {
+        const responseData = await response.json();
+        console.log(responseData);
+      } else {
+        console.log("failed to fetch api");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  static removeProductFromCart = async (userID: string, productID: string) => {
+    try {
+      const url = BASE_URL + "/carts/remove-product";
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userID: userID,
+          productID: productID,
+        }),
+      });
+      if (response.status == 200) {
+        const responseData = await response.json();
+        return responseData
+      }
     } catch (error) {
       console.error(error);
     }

@@ -20,6 +20,10 @@ const productSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  stocks: {
+    type: Number,
+    required: true,
+  },
 });
 
 const CartSchema = mongoose.Schema({

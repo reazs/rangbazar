@@ -1,5 +1,8 @@
-import { useState } from "react";
-import { cartProductInterF } from "../../Interface/CartInterface";
+import { useState, useEffect } from "react";
+import { colors } from "../../models/Products";
+import { UserInterF } from "../../Interface/UserInterface";
+import Utils from "../../utils/Utils";
+import ProductsAPIUtils from "../../utils/ProductsAPIUtils";
 const CartProductListTile = ({
   image,
   price,
@@ -9,6 +12,9 @@ const CartProductListTile = ({
   productID,
   handleCheckbox,
   handleUpdateItemChange,
+  handleRemoveProductFromCart,
+  color,
+  stocks,
 }: {
   image: string;
   price: number;
@@ -16,6 +22,9 @@ const CartProductListTile = ({
   productID: string;
   quantity: number;
   name: string;
+  color: string;
+  stocks: string;
+  handleRemoveProductFromCart: (userID: string, productID: string) => void;
   handleUpdateItemChange: (prodcutID: string, quantity: number) => void;
   handleCheckbox: (
     quantity: number,
@@ -25,13 +34,33 @@ const CartProductListTile = ({
   ) => void;
 }) => {
   const [quantityChange, setQuantityChange] = useState<number>(quantity);
+  const colorName = colors.filter((colour) => {
+    if (colour.value == color) {
+      return colour.name;
+    }
+  });
+
+  const [user, setUser] = useState<UserInterF>();
+  // const handleRemoveProductFromCart = () => {
+  //   const userID = user?._id as string;
+  //   ProductsAPIUtils.removeProductFromCart(userID, productID).then(() => {
+  //     location.reload();
+  //   });
+  // };
+
+  useEffect(() => {
+    Utils.loadUser().then((user: UserInterF) => {
+      setUser(user);
+    });
+  }, [user]);
+
   return (
-    <div className="flex flex-row justify-between mt-5">
+    <div className="flex flex-row justify-between mt-5 ">
       {/* product with checkbox */}
       <div className="flex flex-row justify-start items-center w-full">
         <input
           type="checkbox"
-          className="h-[20px] w-[20px] mr-2 cursor-pointer"
+          className=" md:h-[20px] md:w-[20px]  mr-2 cursor-pointer"
           onChange={(e) => {
             const isChecked = e.target.checked;
             handleCheckbox(quantityChange, price, isChecked, productID);
@@ -39,13 +68,15 @@ const CartProductListTile = ({
         ></input>
         <img
           src={image}
-          className="h-[70px] w-[70px] rounded-md mr-2 object-cover"
+          className="h-[100px] w-[90px] rounded-md mr-2 object-cover"
         />
-        <div className="max-w-[110px]">
-          <p className=" line-clamp-1 overflow-clip font-['Quicksand'] font-bold">
+        <div className="">
+          <p className=" line-clamp-1 overflow-clip font-['Quicksand'] ">
             {name}
           </p>
-          <p className="text-gray-500">Green: {size}</p>
+          <p className="text-gray-500">
+            {colorName[0].name}: {size}
+          </p>
         </div>
       </div>
       {/* quantity with removing icon for product */}
@@ -56,8 +87,11 @@ const CartProductListTile = ({
             <i
               onClick={() => {
                 const updatedQuantity = quantityChange + 1;
-                setQuantityChange(updatedQuantity);
-                handleUpdateItemChange(productID, updatedQuantity);
+
+                if (updatedQuantity < parseInt(stocks)) {
+                  setQuantityChange(updatedQuantity);
+                  handleUpdateItemChange(productID, updatedQuantity);
+                }
               }}
               className="fa fa-plus  mr-3 cursor-pointer"
             ></i>
@@ -73,7 +107,13 @@ const CartProductListTile = ({
               className="fa fa-minus cursor-pointer ml-3"
             ></i>
           </div>
-          <div className="mt-3 text-gray-500 cursor-pointer hover:text-black flex flex-row justify-center">
+          <div
+            onClick={() => {
+              handleRemoveProductFromCart(user?._id as string, productID);
+            }}
+            className="mt-3 text-gray-500 cursor-pointer hover:text-black flex flex-row justify-center"
+          >
+            {/* deleting the item in cart */}
             <div className="">
               {" "}
               <i className="fa fa-trash mr-1 text-center"></i>{" "}

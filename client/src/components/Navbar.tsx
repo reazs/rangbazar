@@ -22,6 +22,7 @@ import Error404Page from "../pages/ErrorPage/Error404Page";
 import BASE_URL from "../config/BaseURL";
 import UploadProductPage from "../pages/UploadProductPage/UploadProductPage";
 import CartPage from "../pages/CartPage/CartPage";
+import CheckOutPage from "../pages/CartPage/CheckOutPage";
 export default function NavBarEx() {
   const [openNav, setOpenNav] = React.useState(false);
   const [isUser, setIsUser] = useState<boolean>();
@@ -124,23 +125,6 @@ export default function NavBarEx() {
           onClick={() => {
             window.scrollTo(0, 0);
           }}
-          to="/user/cart"
-          className="flex items-center"
-        >
-          Cart
-        </Link>
-      </Typography>
-
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <Link
-          onClick={() => {
-            window.scrollTo(0, 0);
-          }}
           to="/about"
           className="flex items-center"
         >
@@ -163,6 +147,24 @@ export default function NavBarEx() {
           Contact
         </Link>
       </Typography>
+      {isUser && (
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="p-1 font-normal"
+        >
+          <Link
+            onClick={() => {
+              window.scrollTo(0, 0);
+            }}
+            to="/user/cart"
+            className="flex items-center text-2xl"
+          >
+            <i className="fa-solid fa-cart-shopping"></i>
+          </Link>
+        </Typography>
+      )}
     </ul>
   );
 

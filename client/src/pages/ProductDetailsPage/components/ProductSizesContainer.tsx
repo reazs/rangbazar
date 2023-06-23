@@ -1,6 +1,7 @@
 import ProductSizeBtn from "./ProductSizeBtn";
 import { Product } from "../../../models/Products";
 import { ClothingProductInterF } from "../../../Interface/Product";
+import { cartProductInterF } from "../../../Interface/CartInterface";
 const ProductSizesContainer = ({
   product,
   handleSelect,

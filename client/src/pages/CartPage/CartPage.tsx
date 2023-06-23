@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from "react";
 import {
   CartInterF,
-  cartProductInterF,
+  cartProductInterF as CartProductInterF,
   selectedCartItemInterF,
 } from "../../Interface/CartInterface";
 import ProductsAPIUtils from "../../utils/ProductsAPIUtils";
 import { UserInterF } from "../../Interface/UserInterface";
 import Utils from "../../utils/Utils";
-import { ClothingProductInterF } from "../../Interface/Product";
-import products from "../../models/Products";
 import CartProductListTile from "./CartProductListTile";
+import Error404Page from "../ErrorPage/Error404Page";
+import CheckOutPage from "./CheckOutPage";
 
 const CartPage: React.FC = () => {
   const [cartItems, setCartItems] = useState<CartInterF>();
-  const [cartProd, setCartProd] = useState<cartProductInterF>();
   const [selectedCartItems, setSelectedCartItems] = useState<
     selectedCartItemInterF[]
   >([]);
+  const [foreRender, setForeRender] = useState(false);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [user, setUser] = useState<UserInterF>();
+  const [isCheckOut, setIsCheckOut] = useState(false);
   const handleCheckbox = (
     quantity: number,
     price: number,
@@ -52,7 +53,6 @@ const CartPage: React.FC = () => {
   };
 
   const handleUpdateItemChange = (productID: string, quantity: number) => {
-    console.log(quantity);
     setSelectedCartItems((prevItems) => {
       const updatedItems = prevItems.filter((item) => {
         if (item.productID == productID) {
@@ -66,6 +66,7 @@ const CartPage: React.FC = () => {
       return [...updatedItems];
     });
   };
+
   const handleTotalPriceChange = () => {
     setTotalPrice(0);
     let totalPrice = 0;
@@ -75,9 +76,11 @@ const CartPage: React.FC = () => {
     });
     setTotalPrice(totalPrice);
   };
+
   useEffect(() => {
     handleTotalPriceChange();
   }, [handleTotalPriceChange]);
+
   const handleSetUser = () => {
     Utils.loadUser().then((user_: UserInterF) => {
       if (user_) {
@@ -106,13 +109,49 @@ const CartPage: React.FC = () => {
       setUser(user);
     });
   };
+  const handleRemoveProductFromCart = (userID: string, productID: string) => {
+    ProductsAPIUtils.removeProductFromCart(userID, productID).then(() => {
+      setCartItems((prevValue) => {
+        const updateCartItems = prevValue?.products.filter(
+          (prod) => prod.productID != productID
+        ) as CartProductInterF[];
+        console.log(updateCartItems);
+        if (prevValue) {
+          prevValue.products = updateCartItems;
+        }
+
+        return prevValue;
+      });
+      setSelectedCartItems((preVal) => {
+        const updateSelItems = preVal.filter(
+          (prod) => prod.productID !== productID
+        );
+        return updateSelItems;
+      });
+      handleTotalPriceChange();
+      setForeRender(!foreRender);
+    });
+  };
+
   useEffect(() => {
     handleSetUser();
-  }, []);
-  return (
+  }, [user]);
+
+  const handleIsCheckOut = () => {
+    setSelectedCartItems([]);
+    setTotalPrice(0);
+    setIsCheckOut(false);
+  };
+  return isCheckOut ? (
+    <CheckOutPage
+      selectedCartItems={selectedCartItems}
+      totalPrice={totalPrice}
+      handleIsCheckOut={handleIsCheckOut}
+    />
+  ) : (
     <>
       <div className=" max-w-screen-xl mx-auto my-[100px]">
-        <div className="grid md:grid-cols-2">
+        <div className="grid md:grid-cols-1">
           {/* left container */}
           <div className="flex flex-row justify-center items-center">
             <div className="p-5 mx-5 w-full">
@@ -120,12 +159,12 @@ const CartPage: React.FC = () => {
                 <h3 className="text-[2.5rem] font-['Montserrat'] font-bold">
                   Cart
                 </h3>
-                <div className="flex flex-row justify-center items-center h-[60px]">
+                {/* <div className="flex flex-row justify-center items-center h-[60px]">
                   <div className="h-5  hover:text-black text-gray-500 cursor-pointer">
                     <i className="fa fa-trash"></i>{" "}
                     <span className="">Remove</span>
                   </div>
-                </div>
+                </div> */}
               </div>
 
               {/* <----------- product quantity price --------------> */}
@@ -143,7 +182,7 @@ const CartPage: React.FC = () => {
               {/* prodcut list */}
               {cartItems &&
                 cartItems.products.map(
-                  (product: cartProductInterF, index: number) => {
+                  (product: CartProductInterF, index: number) => {
                     if (product) {
                       return (
                         <CartProductListTile
@@ -151,6 +190,9 @@ const CartPage: React.FC = () => {
                           {...product}
                           handleCheckbox={handleCheckbox}
                           handleUpdateItemChange={handleUpdateItemChange}
+                          handleRemoveProductFromCart={
+                            handleRemoveProductFromCart
+                          }
                         />
                       );
                     }
@@ -160,8 +202,8 @@ const CartPage: React.FC = () => {
             </div>
           </div>
           {/* right container */}
-          <div className=" m-5">
-            <div className="md:mt-[30px] rounded-md  md:max-w-sm w-full  border-2 p-5 ">
+          <div className="m-5">
+            <div className="md:mt-[30px] rounded-md  md:max-w-xl   mx-auto w-full  border-2 p-5 ">
               <div className="flex flex-row justify-between mb-5">
                 <p className="text-gray-400">Subtotal</p>
                 <p className="font-['Quicksand'] font-bold">${totalPrice}</p>
@@ -177,7 +219,15 @@ const CartPage: React.FC = () => {
                 <p className="text-gray-400">GrandTotal</p>
                 <p className="font-['Quicksand'] font-bold">${totalPrice}</p>
               </div>
-              <button className="py-3 w-full bg-primary-color text-white text-2xl rounded-md text-center bg-opacity-90 hover:bg-opacity-[1]">
+              <button
+                onClick={() => {
+                  if (selectedCartItems.length > 0) {
+                    setIsCheckOut(true);
+                    window.scrollTo(0, 0);
+                  }
+                }}
+                className="py-3 w-full bg-primary-color text-white text-2xl rounded-md text-center bg-opacity-90 hover:bg-opacity-[1]"
+              >
                 Checkout Now
               </button>
             </div>

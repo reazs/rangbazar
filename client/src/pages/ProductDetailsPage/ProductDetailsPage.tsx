@@ -13,13 +13,18 @@ import Utils from "../../utils/Utils";
 import ColorLoading from "../../components/ColorLoading";
 import { ClothingProductInterF } from "../../Interface/Product";
 import BASE_URL from "../../config/BaseURL";
+import ProductsAPIUtils from "../../utils/ProductsAPIUtils";
+import { cartProductInterF } from "../../Interface/CartInterface";
+import { UserInterF } from "../../Interface/UserInterface";
 const ProductDetailsPage: React.FC = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState<ClothingProductInterF>();
-
-  const [selectedSize, setSelectedSize] = useState("");
-  const [activeColor, setActiveColor] = useState("");
+  const [btnState, setBtnState] = useState<boolean>(false);
+  const [selectedSize, setSelectedSize] = useState<string>();
+  const [quantity, setQuantity] = useState<number>(1);
+  const [activeColor, setActiveColor] = useState<string>();
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
+  const [user, setUser] = useState<UserInterF>();
   const handleColorSelect = (newColor: string) => {
     setActiveColor(newColor);
   };
@@ -34,7 +39,11 @@ const ProductDetailsPage: React.FC = () => {
   function handleShowPresent() {
     Utils.delay(500).then(() => setPresentShow(false));
   }
-
+  const loadUser = () => {
+    Utils.loadUser().then((data) => {
+      setUser(data as UserInterF);
+    });
+  };
   async function handleLoadProduct() {
     try {
       const url = BASE_URL + "/product?id=" + productId;
@@ -50,10 +59,31 @@ const ProductDetailsPage: React.FC = () => {
       console.error(error);
     }
   }
+  const handleChangeQuantity = (quantity: number) => {
+    setQuantity(quantity);
+  };
+  const handleBtnState = (btnState: string) => {
+    if (btnState.includes("idle in click res")) {
+      setBtnState(true);
+    }
+  };
+  const handleAddCart = () => {
+    if (btnState) {
+      ProductsAPIUtils.addProductToCart(
+        product as ClothingProductInterF,
+        selectedSize,
+        activeColor,
+        quantity,
+        user?._id as string
+      );
+    }
+  };
   useEffect(() => {
+    loadUser();
+    handleAddCart();
     handleShowPresent();
     handleLoadProduct();
-  }, []);
+  }, [selectedSize, activeColor, btnState, quantity]);
 
   return (
     <>
@@ -95,17 +125,20 @@ const ProductDetailsPage: React.FC = () => {
                   <ProductSizesContainer
                     product={product}
                     handleSelect={handleSelect}
-                    selectedSize={selectedSize}
+                    selectedSize={selectedSize as string}
                   />
 
                   {/* color section */}
                   <ProductColorsContainer
                     product={product}
                     handleColorSelect={handleColorSelect}
-                    activeColor={activeColor}
+                    activeColor={activeColor as string}
                   />
                   {/* Add card section*/}
-                  <ProductAddItemContainer />
+                  <ProductAddItemContainer
+                    handleChangeQuantity={handleChangeQuantity}
+                    handleAddCart={handleBtnState}
+                  />
                   {/* mini description */}
 
                   <div className="uppercase text-[14px] leading-8 mt-4 mb-2">
