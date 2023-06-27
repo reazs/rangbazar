@@ -1,4 +1,9 @@
-import { CartInterF, cartProductInterF } from "../Interface/CartInterface";
+import {
+  CartInterF,
+  cartProductInterF,
+  selectedCartItemInterF,
+} from "../Interface/CartInterface";
+import { CheckOutFormInterF } from "../Interface/FormInterface";
 import { ClothingProductInterF } from "../Interface/Product";
 import BASE_URL from "../config/BaseURL";
 import { Product } from "../models/Products";
@@ -108,7 +113,33 @@ class ProductsAPIUtils {
       });
       if (response.status == 200) {
         const responseData = await response.json();
-        return responseData
+        return responseData;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  static makeOrderProduct = async (
+    orderData: CheckOutFormInterF,
+    selectedProducts: selectedCartItemInterF[]
+  ) => {
+    try {
+      const url = BASE_URL + "/orders/order";
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...orderData,
+          products: selectedProducts,
+        }),
+      });
+      if (response.status == 200) {
+        const responseData = await response.json();
+        console.log(responseData);
+        console.log("the formdata for order passing successfully");
       }
     } catch (error) {
       console.error(error);

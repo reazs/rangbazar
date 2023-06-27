@@ -4,7 +4,9 @@ const productRoute = require("./routes/productRoutes.js");
 const userRoute = require("./routes/userRoutes.js");
 const cors = require("cors");
 const cartRoutes = require("./routes/cartRoutes.js");
+const orderRoutes = require("./routes/OrderRoutes.js");
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 async function main() {
@@ -14,6 +16,7 @@ async function main() {
     app.use("/", productRoute);
     app.use("/users", userRoute);
     app.use("/carts", cartRoutes);
+    app.use("/orders", orderRoutes);
     app.listen(3000, () => {
       console.log("Server running on port 3000");
     });

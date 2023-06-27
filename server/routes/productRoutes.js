@@ -127,7 +127,6 @@ router.post("/upload-images", uploads.array("imagesTest"), (req, res) => {
         });
       }
       const filePaths = files.map((file) => file.path);
-      console.log(filePaths);
       const newImage = new Image({
         name: Date.now() + files[0].filename,
         images: temp_images,
@@ -152,7 +151,6 @@ router.post(
   uploads.array("images"),
   async (req, res) => {
     const productId = req.headers.productid; // Access productId from request headers
-    console.log("productId", productId); // Print the productId
     if (req.files) {
       try {
         const product = await Product.findById(productId);
@@ -168,7 +166,6 @@ router.post(
             contentType: "Image/png",
           });
         }
-        console.log("works here");
         product.images = review_images;
         await product.save();
         return res
@@ -191,7 +188,6 @@ router.get("/products", async (req, res) => {
       const { images, ...modefiyProduct } = product;
 
       const newImages = images.map((image) => image.path);
-      console.log();
       return {
         ...modefiyProduct._doc,
         images: newImages,
@@ -208,7 +204,6 @@ router.get("/products", async (req, res) => {
 router.get("/product", async (req, res) => {
   try {
     const id = req.query.id;
-    console.log(id);
     const prodcut = await Product.findById(id);
     const { images, ...modefiyProduct } = prodcut;
     const newImages = images.map((image) => image.path);

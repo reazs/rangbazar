@@ -29,5 +29,5 @@ export interface FormErrorsInterF {
   nameOnCard?: string;
   creditCardNumber?: string;
   expiration?: string;
-  CVV?: string ;
+  CVV?: string;
 }
