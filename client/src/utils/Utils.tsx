@@ -71,7 +71,7 @@ export default class Utils {
     if (!FormData.address) {
       errors.address = "Address is Required";
     }
-    if (!FormData.city) {
+    if (!FormData.country) {
       errors.country = "Country is Required";
     }
     if (!FormData.state) {
