@@ -1,12 +1,14 @@
 const express = require("express");
 const ProductOrder = require("../models/orderModel");
 const Customer = require("../models/customerModel");
+const Product = require("../models/productModel");
 router = express.Router();
 
 router.post("/order", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
+
   try {
-    const [
+    const {
       fName,
       lName,
       email,
@@ -22,40 +24,51 @@ router.post("/order", async (req, res) => {
       expiration,
       CVV,
       totalAmount,
-      prdoucts,
-    ] = req.body;
+      products,
+    } = req.body;
+
     const newCustomer = Customer({
-      fName: fName,
-      lName: lName,
+      firstName: fName,
+      lastName: lName,
       email: email,
-      address: address,
-      city: "brooklyn",
-      state: state,
-      zipCode: zip,
-    });
-    newCustomer.save();
-    if (newCustomer) {
-      const newOrder = ProductOrder({
-        orderNumber: Math.random(0, 999999999999).toString(),
-        customer: newCustomer._id,
-        totalAmount: totalAmount,
-        shippingAddress: address,
+      address: {
+        addressLine1: address,
         city: "brooklyn",
         state: state,
         zipCode: zip,
-      });
-
-      const newProducts = prdoucts.filter((product) => {
+      },
+    });
+    const customer = await newCustomer.save();
+    console.log("customer was created", customer._id);
+    const randomInt = Math.floor(Math.random() * 1000000000000);
+    const randomString = randomInt.toString();
+    const productsData = await Promise.all(
+      products.map(async (prod) => {
+        const product = await Product.findById(prod.productID);
         return {
-          product: product.productID,
-          quantity: product.quantity,
-          price: product.price,
+          product: product._id,
+          quantity: prod.quantity,
+          price: prod.price,
         };
-      });
-      newOrder.prdoucts = newProducts;
-      newOrder.save();
-      return res.status(200).json(newOrder);
-    }
+      })
+    );
+    const newOrder = ProductOrder({
+      orderNumber: randomString,
+      customer: customer._id,
+      totalAmount: parseFloat(totalAmount),
+      shippingAddress: {
+        addressLine1: address,
+        city: "brooklyn",
+        state: state,
+        zipCode: zip,
+      },
+      products: productsData,
+    });
+    const order = await newOrder.save();
+    //  to retrive the oder.products[0].product.name | images | etc
+    // have to apply this
+    // const order = ProductOrder.findById(id).popluate('products.product')
+    return res.status(200).json(order);
   } catch (error) {
     return res.status(500).json({
       message: "server error",

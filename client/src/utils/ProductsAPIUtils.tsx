@@ -122,7 +122,8 @@ class ProductsAPIUtils {
 
   static makeOrderProduct = async (
     orderData: CheckOutFormInterF,
-    selectedProducts: selectedCartItemInterF[]
+    selectedProducts: selectedCartItemInterF[],
+    totalAmount: number | string
   ) => {
     try {
       const url = BASE_URL + "/orders/order";
@@ -134,6 +135,7 @@ class ProductsAPIUtils {
         body: JSON.stringify({
           ...orderData,
           products: selectedProducts,
+          totalAmount: totalAmount,
         }),
       });
       if (response.status == 200) {

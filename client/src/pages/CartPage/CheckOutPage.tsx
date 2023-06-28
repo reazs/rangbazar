@@ -9,6 +9,7 @@ import {
   FormErrorsInterF,
 } from "../../Interface/FormInterface";
 import Utils from "../../utils/Utils";
+import ProductsAPIUtils from "../../utils/ProductsAPIUtils";
 
 const CheckOutPage = ({
   selectedCartItems,
@@ -19,6 +20,7 @@ const CheckOutPage = ({
   totalPrice: number;
   handleIsCheckOut: () => void;
 }) => {
+  const [isSameShipping, setIsSameShipping] = useState<boolean>(false);
   const [cardType, setCardType] = useState<string>("");
   const [formErros, setFormErros] = useState<FormErrorsInterF>({});
   const [formData, setFormData] = useState<CheckOutFormInterF>({
@@ -50,6 +52,11 @@ const CheckOutPage = ({
     const erros = Utils.validateForm(formData);
     if (Object.keys(erros).length == 0) {
       //  form is valid go to next steop
+      ProductsAPIUtils.makeOrderProduct(
+        formData,
+        selectedCartItems,
+        totalPrice
+      );
       console.log("form submiited");
     } else {
       setFormErros(erros);
@@ -58,11 +65,14 @@ const CheckOutPage = ({
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prevFormData: any) => {
-      const newData: CheckOutFormInterF = {
+      let newData: CheckOutFormInterF = {
         ...prevFormData,
         [name]: value,
       };
-
+      if (name === "isShippingSame") {
+        setIsSameShipping((preVal) => !preVal);
+      }
+      newData.isShippingSame = isSameShipping;
       return newData;
     });
 
