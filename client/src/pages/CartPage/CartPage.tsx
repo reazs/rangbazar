@@ -137,6 +137,21 @@ const CartPage: React.FC = () => {
     handleSetUser();
   }, [user]);
 
+  const handleCartItems = (selectedCartItems: selectedCartItemInterF[]) => {
+    setCartItems((prevCartItems) => {
+      if (!prevCartItems || !prevCartItems.products) {
+        return prevCartItems;
+      }
+
+      const updatedProducts = prevCartItems.products.filter((prevItem) => {
+        return !selectedCartItems.some((selProd) => {
+          return prevItem.productID === selProd.productID;
+        });
+      });
+
+      return { ...prevCartItems, products: updatedProducts };
+    });
+  };
   const handleIsCheckOut = () => {
     setSelectedCartItems([]);
     setTotalPrice(0);
@@ -144,6 +159,7 @@ const CartPage: React.FC = () => {
   };
   return isCheckOut ? (
     <CheckOutPage
+      handleUpdateCartItems={handleCartItems}
       selectedCartItems={selectedCartItems}
       totalPrice={totalPrice}
       handleIsCheckOut={handleIsCheckOut}
@@ -202,36 +218,42 @@ const CartPage: React.FC = () => {
             </div>
           </div>
           {/* right container */}
-          <div className="m-5">
-            <div className="md:mt-[30px] rounded-md  md:max-w-xl   mx-auto w-full  border-2 p-5 ">
-              <div className="flex flex-row justify-between mb-5">
-                <p className="text-gray-400">Subtotal</p>
-                <p className="font-['Quicksand'] font-bold">${totalPrice}</p>
+          {cartItems && cartItems.products.length > 0 ? (
+            <div className="m-5">
+              <div className="md:mt-[30px] rounded-md  md:max-w-xl   mx-auto w-full  border-2 p-5 ">
+                <div className="flex flex-row justify-between mb-5">
+                  <p className="text-gray-400">Subtotal</p>
+                  <p className="font-['Quicksand'] font-bold">${totalPrice}</p>
+                </div>
+                <div className="flex flex-row justify-between mb-5">
+                  <p className="text-gray-400">Tax</p>
+                  <p className="font-['Quicksand'] text-gray-500 font-bold">
+                    ${0}
+                  </p>
+                </div>
+                <hr />
+                <div className="grid md:grid-cols-4 justify-between mb-5">
+                  <p className="text-gray-400">GrandTotal</p>
+                  <p className="font-['Quicksand'] font-bold">${totalPrice}</p>
+                </div>
+                <button
+                  onClick={() => {
+                    if (selectedCartItems.length > 0) {
+                      setIsCheckOut(true);
+                      window.scrollTo(0, 0);
+                    }
+                  }}
+                  className="py-3 w-full bg-primary-color text-white text-2xl rounded-md text-center bg-opacity-90 hover:bg-opacity-[1]"
+                >
+                  Checkout Now
+                </button>
               </div>
-              <div className="flex flex-row justify-between mb-5">
-                <p className="text-gray-400">Tax</p>
-                <p className="font-['Quicksand'] text-gray-500 font-bold">
-                  ${0}
-                </p>
-              </div>
-              <hr />
-              <div className="flex flex-row justify-between mb-5">
-                <p className="text-gray-400">GrandTotal</p>
-                <p className="font-['Quicksand'] font-bold">${totalPrice}</p>
-              </div>
-              <button
-                onClick={() => {
-                  if (selectedCartItems.length > 0) {
-                    setIsCheckOut(true);
-                    window.scrollTo(0, 0);
-                  }
-                }}
-                className="py-3 w-full bg-primary-color text-white text-2xl rounded-md text-center bg-opacity-90 hover:bg-opacity-[1]"
-              >
-                Checkout Now
-              </button>
             </div>
-          </div>
+          ) : (
+            <div className="flex flex-row justify-center items-center p-[150px] text-2xl text-gray-400">
+              <h1>There is no Items added in cart</h1>
+            </div>
+          )}
         </div>
       </div>
     </>

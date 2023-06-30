@@ -1,5 +1,6 @@
 import {
   CartInterF,
+  OrdersDataInterF,
   cartProductInterF,
   selectedCartItemInterF,
 } from "../Interface/CartInterface";
@@ -123,7 +124,8 @@ class ProductsAPIUtils {
   static makeOrderProduct = async (
     orderData: CheckOutFormInterF,
     selectedProducts: selectedCartItemInterF[],
-    totalAmount: number | string
+    totalAmount: number | string,
+    userID: string
   ) => {
     try {
       const url = BASE_URL + "/orders/order";
@@ -136,12 +138,26 @@ class ProductsAPIUtils {
           ...orderData,
           products: selectedProducts,
           totalAmount: totalAmount,
+          userID: userID,
         }),
       });
       if (response.status == 200) {
         const responseData = await response.json();
         console.log(responseData);
         console.log("the formdata for order passing successfully");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  static loadOrdersData = async (userID: string) => {
+    try {
+      const url = BASE_URL + "/orders?userID=" + userID;
+      const response = await fetch(url);
+      if (response.status == 200) {
+        const responseData = await response.json();
+        return responseData as OrdersDataInterF[];
       }
     } catch (error) {
       console.error(error);

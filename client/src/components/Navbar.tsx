@@ -23,6 +23,8 @@ import BASE_URL from "../config/BaseURL";
 import UploadProductPage from "../pages/UploadProductPage/UploadProductPage";
 import CartPage from "../pages/CartPage/CartPage";
 import CheckOutPage from "../pages/CartPage/CheckOutPage";
+import orderListIcon from "../../src/assets/icons/order-list-icon.png";
+import ViewOrderPage from "../pages/ViewOrderPage/ViewOrderPage";
 export default function NavBarEx() {
   const [openNav, setOpenNav] = React.useState(false);
   const [isUser, setIsUser] = useState<boolean>();
@@ -148,22 +150,40 @@ export default function NavBarEx() {
         </Link>
       </Typography>
       {isUser && (
-        <Typography
-          as="li"
-          variant="small"
-          color="blue-gray"
-          className="p-1 font-normal"
-        >
-          <Link
-            onClick={() => {
-              window.scrollTo(0, 0);
-            }}
-            to="/user/cart"
-            className="flex items-center text-2xl"
+        <>
+          <Typography
+            as="li"
+            variant="small"
+            color="blue-gray"
+            className="p-1 font-normal"
           >
-            <i className="fa-solid fa-cart-shopping"></i>
-          </Link>
-        </Typography>
+            <Link
+              onClick={() => {
+                window.scrollTo(0, 0);
+              }}
+              to="/user/cart"
+              className="flex items-center text-2xl"
+            >
+              <i className="fa-solid fa-cart-shopping"></i>
+            </Link>
+          </Typography>
+          <Typography
+            as="li"
+            variant="small"
+            color="blue-gray"
+            className="p-1 font-normal"
+          >
+            <Link
+              onClick={() => {
+                window.scrollTo(0, 0);
+              }}
+              to="/user/view-orders"
+              className="flex items-center text-2xl"
+            >
+              <img src={orderListIcon} className="h-[28px] w-f[28px]" />
+            </Link>
+          </Typography>
+        </>
       )}
     </ul>
   );
@@ -282,6 +302,7 @@ export default function NavBarEx() {
         <Route path="/user" element={<UserHomePage />} />
         <Route path="/upload-product" element={<UploadProductPage />} />
         <Route path="/user/cart" element={<CartPage />} />
+        <Route path="/user/view-orders" element={<ViewOrderPage />} />
       </Routes>
     </>
   );

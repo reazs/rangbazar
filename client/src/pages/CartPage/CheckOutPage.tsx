@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   CartInterF,
   selectedCartItemInterF,
@@ -10,19 +11,26 @@ import {
 } from "../../Interface/FormInterface";
 import Utils from "../../utils/Utils";
 import ProductsAPIUtils from "../../utils/ProductsAPIUtils";
+import { UserInterF } from "../../Interface/UserInterface";
+import ColorLoading from "../../components/ColorLoading";
 
 const CheckOutPage = ({
   selectedCartItems,
   totalPrice,
   handleIsCheckOut,
+  handleUpdateCartItems,
 }: {
   selectedCartItems: selectedCartItemInterF[];
   totalPrice: number;
   handleIsCheckOut: () => void;
+  handleUpdateCartItems: (selectedCartItems: selectedCartItemInterF[]) => void;
 }) => {
   const [isSameShipping, setIsSameShipping] = useState<boolean>(false);
   const [cardType, setCardType] = useState<string>("");
   const [formErros, setFormErros] = useState<FormErrorsInterF>({});
+  const [user, setUser] = useState<UserInterF>();
+  const [isFormSubmit, setIsFormSubmit] = useState<boolean>(false);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<CheckOutFormInterF>({
     fName: "",
     lName: "",
@@ -46,7 +54,12 @@ const CheckOutPage = ({
     handleChange(event);
     setCardType(value);
   };
-
+  const loadUser = () => {
+    Utils.loadUser().then((userData) => setUser(userData));
+  };
+  useEffect(() => {
+    loadUser();
+  }, [user]);
   const handleOnSubmitForm = (event: React.FormEvent) => {
     event.preventDefault();
     const erros = Utils.validateForm(formData);
@@ -55,8 +68,16 @@ const CheckOutPage = ({
       ProductsAPIUtils.makeOrderProduct(
         formData,
         selectedCartItems,
-        totalPrice
+        totalPrice,
+        user?._id as string
       );
+      // TODO update selectedItemsCard here
+      handleUpdateCartItems(selectedCartItems);
+      setIsFormSubmit(true);
+      Utils.delay(1500).then(() => {
+        setIsFormSubmit(false);
+        navigate("/user/view-orders");
+      });
       console.log("form submiited");
     } else {
       setFormErros(erros);
@@ -348,6 +369,14 @@ const CheckOutPage = ({
           </div>
         </div>
       </div>
+
+      {isFormSubmit && (
+        <div className="fixed inset-0 bg-black backdrop:blur-sm bg-opacity-30 flex justify-center items-center z-10">
+          <div className="flex flex-row items-center justify-center p-10 rounded-md  mx-5">
+            <ColorLoading />
+          </div>
+        </div>
+      )}
     </>
   );
 };
