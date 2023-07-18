@@ -9,7 +9,18 @@ To get started with Rangbazaar, follow these steps:
 1. Clone the repository: `git clone https://github.com/reazs/rangbazar.git`
 2. Navigate to the project directory: `cd rangbazaar`
 3. Install the dependencies: `npm install`
-
+4. Node.js
+5. MongoDB
+#  Configuration
+Create a .env file in the backend directory and add the following environment variables:
+    PORT=3000
+    MONGODB_URI=your-mongodb-uri
+    JWT_SECRET=your-jwt-secret
+## Usage
+Start the MongoDB server.
+cd server
+Start the backend server:
+node app.js
 ## Available Scripts
 
 In the project directory, you can run the following scripts:
@@ -18,6 +29,18 @@ In the project directory, you can run the following scripts:
 - `npm run build`: Builds the project for production using TypeScript and Vite.
 - `npm run lint`: Lints the source code using ESLint.
 - `npm run preview`: Serves the production build locally for preview.
+# API Endpoints
+The backend server exposes the following API endpoints:
+
+POST /api/auth/signup - User registration
+POST /api/auth/login - User login
+GET /api/products - Get all products
+GET /api/products/:id - Get a specific product
+POST /api/cart - Add a product to the shopping cart
+GET /api/cart - Get the contents of the shopping cart
+PUT /api/cart/:id - Update the quantity of a product in the shopping cart
+DELETE /api/cart/:id - Remove a product from the shopping cart
+POST /api/orders - Place an order
 
 # Project Demo
 ![home_page](https://github.com/reazs/rangbazar/assets/91802731/9125edb9-4123-45e5-9ff7-c503777458f8)
