@@ -6,7 +6,7 @@ Rangbazaar is an e-commerce application built using React, TypeScript, and Vite.
 
 To get started with Rangbazaar, follow these steps:
 
-1. Clone the repository: `git clone <repository-url>`
+1. Clone the repository: `git clone https://github.com/reazs/rangbazar.git`
 2. Navigate to the project directory: `cd rangbazaar`
 3. Install the dependencies: `npm install`
 
