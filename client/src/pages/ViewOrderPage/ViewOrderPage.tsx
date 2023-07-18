@@ -10,9 +10,10 @@ const ViewOrderPage: React.FC = () => {
   const loadOrdersData = async () => {
     const userId = user?._id as string;
     if (userId) {
-      ProductsAPIUtils.loadOrdersData(userId).then((orders) =>
-        setOrdersData(orders as OrdersDataInterF[])
-      );
+      ProductsAPIUtils.loadOrdersData(userId).then((orders) => {
+        setOrdersData(orders as OrdersDataInterF[]);
+        console.log(orders);
+      });
     }
   };
   const loadUser = async () => {
@@ -36,51 +37,52 @@ const ViewOrderPage: React.FC = () => {
           <h1 className="large-thin-heading">Your Orders</h1>
           <hr />
           <div className="mt-5">
-            {ordersData.map((order) => {
-              return (
-                <div
-                  key={order.orderDate}
-                  className="p-5 border-2 my-2 rounded-md shadow-md"
-                >
-                  <div className="md:flex md:flex-row gap-2">
-                    {order.products.map((prod) => {
-                      const imgUrl = prod.product.images[0] as any;
-                      return (
-                        <div
-                          key={prod.product._id}
-                          className="my-3 flex flex-row"
-                        >
-                          <img
-                            src={imgUrl.path}
-                            className="h-[100px] rounded-md w-[100px] object-cover"
-                          />
-                          <div className="mx-5">
-                            <h1 className="text-xl">{prod.product.name}</h1>
-                            <p>Price: ${prod.product.price}</p>
-                            <p>Quantity: {prod.quantity}</p>
+            {ordersData &&
+              ordersData.map((order) => {
+                return (
+                  <div
+                    key={order.orderDate}
+                    className="p-5 border-2 my-2 rounded-md shadow-md"
+                  >
+                    <div className="md:flex md:flex-row gap-2">
+                      {order.products.map((prod) => {
+                        const imgUrl = prod.product.images[0] as any;
+                        return (
+                          <div
+                            key={prod.product._id}
+                            className="my-3 flex flex-row"
+                          >
+                            <img
+                              src={imgUrl.path}
+                              className="h-[100px] rounded-md w-[100px] object-cover"
+                            />
+                            <div className="mx-5">
+                              <h1 className="text-xl">{prod.product.name}</h1>
+                              <p>Price: ${prod.product.price}</p>
+                              <p>Quantity: {prod.quantity}</p>
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                    </div>
+                    <hr className="mb-2"></hr>
+                    <div>
+                      <p>
+                        <span className="text-gray-500">Order Number: </span>
+                        {order.orderNumber}
+                      </p>
+                      <p>
+                        <span className="text-gray-500">Total Amount:</span> $
+                        {order.totalAmount}
+                      </p>
+                      <p className="">
+                        <span className="text-gray-500">Shipping: </span>
+                        {order.status}
+                      </p>
+                    </div>
                   </div>
-                  <hr className="mb-2"></hr>
-                  <div>
-                    <p>
-                      <span className="text-gray-500">Order Number: </span>
-                      {order.orderNumber}
-                    </p>
-                    <p>
-                      <span className="text-gray-500">Total Amount:</span> $
-                      {order.totalAmount}
-                    </p>
-                    <p className="">
-                      <span className="text-gray-500">Shipping: </span>
-                      {order.status}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
       </div>
