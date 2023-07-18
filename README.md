@@ -33,13 +33,21 @@ In the project directory, you can run the following scripts:
 The backend server exposes the following API endpoints:
 
 POST /api/auth/signup - User registration
+
 POST /api/auth/login - User login
+
 GET /api/products - Get all products
+
 GET /api/products/:id - Get a specific product
+
 POST /api/cart - Add a product to the shopping cart
+
 GET /api/cart - Get the contents of the shopping cart
+
 PUT /api/cart/:id - Update the quantity of a product in the shopping cart
+
 DELETE /api/cart/:id - Remove a product from the shopping cart
+
 POST /api/orders - Place an order
 
 # Project Demo
