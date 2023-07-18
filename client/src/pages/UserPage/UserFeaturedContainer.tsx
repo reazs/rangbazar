@@ -61,7 +61,7 @@ const UserFeaturedContainer = () => {
             <p className=" mb-10 text-xl text-gray-400 font-medium">See All</p>
           </Link>
         </div>
-        <div className="flex flex-row overflow-x-auto gap-2 overflow-y-hidden h-[550px]">
+        <div className="lg:flex lg:flex-row grid md:grid-cols-3 grid-cols-2 lg:overflow-x-auto gap-2 lg:overflow-y-hidden lg:h-[550px]">
           {/* <div className="h-[300px] mb-2  w-[400px] bg-red-300 flex-shrink-0"></div>
               <div className="h-[300px] mb-2   w-[400px] bg-cyan-500 flex-shrink-0"></div>
               <div className="h-[300px] mb-2  w-[400px] bg-teal-500 flex-shrink-0"></div> */}
