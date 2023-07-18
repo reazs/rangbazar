@@ -24,12 +24,11 @@ In the project directory, you can run the following scripts:
 
 ![about_page](https://github.com/reazs/rangbazar/assets/91802731/666e37ae-dc44-408b-bd4a-ba3fc998278f)
 
-
 ![contact_page](https://github.com/reazs/rangbazar/assets/91802731/739fd1a7-1f15-43c2-b936-bb964cf53166)
 
-![shop_page](https://github.com/reazs/rangbazar/assets/91802731/39b6d048-835f-4b11-84fb-d044de4e5deb)
+![shop_page](https://github.com/reazs/rangbazar/assets/91802731/c51b05a4-61fc-48cd-9522-5caa3bd06596)
 
-![shopping](https://github.com/reazs/rangbazar/assets/91802731/07042b0a-d395-498e-846f-433a393df7d8)
+![shopping](https://github.com/reazs/rangbazar/assets/91802731/917a8a36-05be-4f60-86e9-330039875452)
 
 ![review](https://github.com/reazs/rangbazar/assets/91802731/8fd12297-1bdc-41b4-b852-65bbd8cd8304)
 
@@ -39,7 +38,8 @@ In the project directory, you can run the following scripts:
 
 ![singUp_page](https://github.com/reazs/rangbazar/assets/91802731/afbd59af-b35f-401e-92fe-1c4a52a564a7)
 
-![user_page](https://github.com/reazs/rangbazar/assets/91802731/0ef94cd3-53b9-48b9-941a-536a12837a20)
+![user_page](https://github.com/reazs/rangbazar/assets/91802731/feeaf5b6-8952-4a5c-81bc-3c7369313a30)
+
 
 
 
