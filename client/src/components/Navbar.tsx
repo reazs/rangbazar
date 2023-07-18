@@ -22,7 +22,6 @@ import Error404Page from "../pages/ErrorPage/Error404Page";
 import BASE_URL from "../config/BaseURL";
 import UploadProductPage from "../pages/UploadProductPage/UploadProductPage";
 import CartPage from "../pages/CartPage/CartPage";
-import CheckOutPage from "../pages/CartPage/CheckOutPage";
 import orderListIcon from "../../src/assets/icons/order-list-icon.png";
 import ViewOrderPage from "../pages/ViewOrderPage/ViewOrderPage";
 export default function NavBarEx() {

@@ -1,4 +1,8 @@
 import {
+  ContactFormErrorItnerF,
+  ContactFormInterF,
+} from "../Interface/ContactFormInterF";
+import {
   CheckOutFormInterF,
   FormErrorsInterF,
 } from "../Interface/FormInterface";
@@ -97,5 +101,30 @@ export default class Utils {
     }
 
     return errors;
+  };
+
+  static contactFormValidate = (
+    FormData: ContactFormInterF
+  ): ContactFormErrorItnerF => {
+    let error: ContactFormErrorItnerF = {};
+    if (!FormData.name) {
+      error.name = "Required name.";
+    }
+    if (FormData.email) {
+      const isValidEmail = emailRegex.test(FormData.email);
+      if (!isValidEmail) {
+        error.email = "Invalid Email";
+      }
+    }
+    if (!FormData.email) {
+      error.email = "Required email address.";
+    }
+    if (!FormData.request) {
+      error.request = "Required type of request.";
+    }
+    if (!FormData.message) {
+      error.message = "Required message";
+    }
+    return error;
   };
 }

@@ -327,7 +327,7 @@ const CheckOutPage = ({
               <hr className="mb-5" />
               <button
                 type="submit"
-                // onClick={handleOnSubmitForm}
+                onClick={handleOnSubmitForm}
                 className=" p-5 rounded-md text-white opacity-90 hover:opacity-[1] w-full text-center bg-primary-color"
               >
                 Check out

@@ -1,8 +1,10 @@
 const express = require("express");
+const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
 const User = require("../models/userModel.js");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+
 const blacklist = [];
 require("dotenv").config();
 express(cors());
@@ -98,6 +100,39 @@ router.post("/loadUser", async (req, res) => {
   }
 });
 
+router.post("/contact", async (req, res) => {
+  try {
+    // transpoter with email support serveice provider SMTP configuration
+    const { name, email, request, message } = req.body;
+    const transpoter = nodemailer.createTransport({
+      host: "smtp.zoho.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: "support@rangbazaar.us",
+        pass: "pXBnzEqEyjZg",
+      },
+    });
+    const mailOptions = {
+      from: email,
+      to: "reaz.shakil@rangbazaar.us",
+      subject: request,
+      text: message,
+    };
+    transpoter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error sending email", error);
+        res.status(500).json({ error: "Failed to send email" });
+      } else {
+        console.log("Email sent", info.response);
+        res.status(200).json({ message: "Email sent successfully" });
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "server error" });
+  }
+});
+
 router.post("/logout", async (req, res) => {
   try {
     const { token } = req.body;
@@ -109,7 +144,6 @@ router.post("/logout", async (req, res) => {
     return res.json({ error: error });
   }
 });
-
 
 module.exports = router;
 
