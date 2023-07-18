@@ -110,8 +110,8 @@ router.post("/contact", async (req, res) => {
       secure: true,
       secureConnection: "SSL",
       auth: {
-        user: "support@rangbazaar.us",
-        pass: "pXBnzEqEyjZg",
+        user: process.env.USER,
+        pass: process.env.PASSWORD,
       },
     });
     const mailOptions = {
