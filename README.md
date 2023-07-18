@@ -57,6 +57,8 @@ POST /api/orders - Place an order
 
 ![shopping](https://github.com/reazs/rangbazar/assets/91802731/917a8a36-05be-4f60-86e9-330039875452)
 
+![user_page](https://github.com/reazs/rangbazar/assets/91802731/feeaf5b6-8952-4a5c-81bc-3c7369313a30)
+
 ![review](https://github.com/reazs/rangbazar/assets/91802731/8fd12297-1bdc-41b4-b852-65bbd8cd8304)
 
 ![order_page](https://github.com/reazs/rangbazar/assets/91802731/7e193a4c-9e63-419a-93c7-201fe7347ca3)
@@ -68,8 +70,6 @@ POST /api/orders - Place an order
 ![singIn_page](https://github.com/reazs/rangbazar/assets/91802731/9a32de7f-48e2-4cff-a884-43cdf936b6f6)
 
 ![singUp_page](https://github.com/reazs/rangbazar/assets/91802731/afbd59af-b35f-401e-92fe-1c4a52a564a7)
-
-![user_page](https://github.com/reazs/rangbazar/assets/91802731/feeaf5b6-8952-4a5c-81bc-3c7369313a30)
 
 
 
