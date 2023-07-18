@@ -1,8 +1,55 @@
 import { Link } from "react-router-dom";
 import products from "../../models/Products";
 import ProductCard from "../../components/ProductCard";
+import { useEffect, useState } from "react";
+import {
+  ClothingProductInterF,
+  colorInterF,
+  reviewInterF,
+} from "../../Interface/Product";
+import BASE_URL from "../../config/BaseURL";
 const UserFeaturedContainer = () => {
-  const featuredProduct = products.reverse().slice(0, 6);
+  const [clothProducts, setClothProducts] = useState<ClothingProductInterF[]>(
+    []
+  );
+  const featuredProduct = clothProducts.reverse().slice(0, 6);
+  const handleLoadProducts = async () => {
+    const url = BASE_URL + "/products";
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.status == 200) {
+        const products: ClothingProductInterF[] = await response.json();
+
+        const updatedProducts: ClothingProductInterF[] = [];
+        products.forEach((product: ClothingProductInterF) => {
+          const newProduct: ClothingProductInterF = {
+            ...product,
+          };
+          console.log("Product ID---->", newProduct._id);
+          const productExist = clothProducts.findIndex((prod) => {
+            prod._id === newProduct._id;
+          });
+          if (productExist !== -1) {
+            updatedProducts.push(...clothProducts);
+          } else {
+            updatedProducts.push(...clothProducts, newProduct);
+          }
+        });
+        setClothProducts(updatedProducts);
+      }
+    } catch (error) {
+      console.log("could not fetch the URL");
+    }
+  };
+  useEffect(() => {
+    handleLoadProducts();
+  }, []);
   return (
     <>
       <div className="mt-10">
@@ -23,7 +70,7 @@ const UserFeaturedContainer = () => {
               <>
                 <Link
                   to={
-                    "/shop/product-details/" + product.title + "/" + product.id
+                    "/shop/product-details/" + product.name + "/" + product._id
                   }
                 >
                   <ProductCard {...product} />

@@ -6,11 +6,20 @@ import Footer from "../../components/Footer";
 import UserTopContainer from "./UserTopContainer";
 import UserFeaturedContainer from "./UserFeaturedContainer";
 import products from "../../models/Products";
+import BASE_URL from "../../config/BaseURL";
+import {
+  ClothingProductInterF,
+  colorInterF,
+  reviewInterF,
+} from "../../Interface/Product";
 const UserHomePage = () => {
   const [userId, setUserId] = useState("");
   const [fName, setFName] = useState("");
   const [lName, setLName] = useState("");
   const [email, setEmail] = useState("");
+  const [clothProducts, setClothProducts] = useState<ClothingProductInterF[]>(
+    []
+  );
   const navigator = useNavigate();
   const loadUser = async () => {
     const data = await Utils.loadUser();
@@ -43,12 +52,46 @@ const UserHomePage = () => {
       searchIcon.classList.remove("text-black");
     });
   }
-  const favoriteItems = products.slice(8, 10);
+  const favoriteItems = clothProducts.slice(8, 10);
   useEffect(() => {
     loadUser();
     focus();
+    handleLoadProducts();
   }, []);
+  const handleLoadProducts = async () => {
+    const url = BASE_URL + "/products";
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
+      if (response.status == 200) {
+        const products: ClothingProductInterF[] = await response.json();
+
+        const updatedProducts: ClothingProductInterF[] = [];
+        products.forEach((product: ClothingProductInterF) => {
+          const newProduct: ClothingProductInterF = {
+            ...product,
+          };
+          console.log("Product ID---->", newProduct._id);
+          const productExist = clothProducts.findIndex((prod) => {
+            prod._id === newProduct._id;
+          });
+          if (productExist !== -1) {
+            updatedProducts.push(...clothProducts);
+          } else {
+            updatedProducts.push(...clothProducts, newProduct);
+          }
+        });
+        setClothProducts(updatedProducts);
+      }
+    } catch (error) {
+      console.log("could not fetch the URL");
+    }
+  };
   return (
     <>
       <div className=" max-w-screen-xl mx-auto">
@@ -69,9 +112,9 @@ const UserHomePage = () => {
                     <Link
                       to={
                         "/shop/product-details/" +
-                        products.title +
+                        products.name +
                         "/" +
-                        products.id
+                        products._id
                       }
                     >
                       <ProductCard {...products} />

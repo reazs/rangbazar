@@ -108,15 +108,16 @@ router.post("/contact", async (req, res) => {
       host: "smtp.zoho.com",
       port: 465,
       secure: true,
+      secureConnection: "SSL",
       auth: {
         user: "support@rangbazaar.us",
         pass: "pXBnzEqEyjZg",
       },
     });
     const mailOptions = {
-      from: email,
-      to: "reaz.shakil@rangbazaar.us",
-      subject: request,
+      from: "support@rangbazaar.us",
+      to: "refat.ullah@rangbazaar.us, reaz.shakil@rangbazaar.us",
+      subject: request + " " + email,
       text: message,
     };
     transpoter.sendMail(mailOptions, (error, info) => {
