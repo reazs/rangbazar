@@ -19,6 +19,31 @@ In the project directory, you can run the following scripts:
 - `npm run lint`: Lints the source code using ESLint.
 - `npm run preview`: Serves the production build locally for preview.
 
+# Project Demo
+![home_page](https://github.com/reazs/rangbazar/assets/91802731/9125edb9-4123-45e5-9ff7-c503777458f8)
+
+![about_page](https://github.com/reazs/rangbazar/assets/91802731/666e37ae-dc44-408b-bd4a-ba3fc998278f)
+
+
+![contact_page](https://github.com/reazs/rangbazar/assets/91802731/739fd1a7-1f15-43c2-b936-bb964cf53166)
+
+![shop_page](https://github.com/reazs/rangbazar/assets/91802731/39b6d048-835f-4b11-84fb-d044de4e5deb)
+
+![shopping](https://github.com/reazs/rangbazar/assets/91802731/07042b0a-d395-498e-846f-433a393df7d8)
+
+![review](https://github.com/reazs/rangbazar/assets/91802731/8fd12297-1bdc-41b4-b852-65bbd8cd8304)
+
+![order_page](https://github.com/reazs/rangbazar/assets/91802731/7e193a4c-9e63-419a-93c7-201fe7347ca3)
+
+![singIn_page](https://github.com/reazs/rangbazar/assets/91802731/9a32de7f-48e2-4cff-a884-43cdf936b6f6)
+
+![singUp_page](https://github.com/reazs/rangbazar/assets/91802731/afbd59af-b35f-401e-92fe-1c4a52a564a7)
+
+![user_page](https://github.com/reazs/rangbazar/assets/91802731/0ef94cd3-53b9-48b9-941a-536a12837a20)
+
+
+
+
 ## Dependencies
 
 Rangbazaar relies on the following dependencies:
@@ -69,24 +94,3 @@ Please refer to the documentation of each dependency for more information on the
 Rangbazaar is a powerful e-commerce application that provides an engaging shopping experience. It leverages modern web technologies and libraries to deliver a responsive and intuitive user interface. Feel free to explore and customize the codebase to suit your specific requirements.
 
 If you have any questions or need further assistance, please don't hesitate to contact us. Happy shopping with Rangbazaar!
-![home_page](https://github.com/reazs/rangbazar/assets/91802731/9125edb9-4123-45e5-9ff7-c503777458f8)
-
-![about_page](https://github.com/reazs/rangbazar/assets/91802731/666e37ae-dc44-408b-bd4a-ba3fc998278f)
-
-
-![contact_page](https://github.com/reazs/rangbazar/assets/91802731/739fd1a7-1f15-43c2-b936-bb964cf53166)
-
-![shop_page](https://github.com/reazs/rangbazar/assets/91802731/39b6d048-835f-4b11-84fb-d044de4e5deb)
-
-![shopping](https://github.com/reazs/rangbazar/assets/91802731/07042b0a-d395-498e-846f-433a393df7d8)
-
-![review](https://github.com/reazs/rangbazar/assets/91802731/8fd12297-1bdc-41b4-b852-65bbd8cd8304)
-
-![order_page](https://github.com/reazs/rangbazar/assets/91802731/7e193a4c-9e63-419a-93c7-201fe7347ca3)
-
-![singIn_page](https://github.com/reazs/rangbazar/assets/91802731/9a32de7f-48e2-4cff-a884-43cdf936b6f6)
-
-![singUp_page](https://github.com/reazs/rangbazar/assets/91802731/afbd59af-b35f-401e-92fe-1c4a52a564a7)
-
-![user_page](https://github.com/reazs/rangbazar/assets/91802731/0ef94cd3-53b9-48b9-941a-536a12837a20)
-
