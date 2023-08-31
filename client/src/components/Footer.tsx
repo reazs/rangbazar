@@ -1,5 +1,5 @@
 import { Typography } from "@material-tailwind/react";
-import Navbrand from "./navbrand";
+import Navbrand from "./Navbrand";
 
 const LINKS = [
   {

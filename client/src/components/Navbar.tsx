@@ -12,7 +12,7 @@ import {
   Button,
   IconButton,
 } from "@material-tailwind/react";
-import Navbrand from "./navbrand";
+import Navbrand from "./Navbrand";
 import ProductDetailsPage from "../pages/ProductDetailsPage/ProductDetailsPage";
 import SignUpPage from "../pages/SignUpPage/SignUpPage";
 import SignInPage from "../pages/SignInPage/SignInPage";
